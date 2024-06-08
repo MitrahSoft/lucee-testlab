@@ -2,11 +2,9 @@
 	reporter  = url.reporter  ?: "raw";
 	scope     = url.scope     ?: "full";
 	directory = url.directory ?: "";
-	systemOutput(expandPath("/integration"), true);
-	systemOutput(DirectoryList("/integration"), true);
 	testbox   = new testbox.system.TestBox( options={}, reporter=reporter, directory={
 		  recurse  = true
-		, mapping  = Len( directory ) ? "integration.api.#directory#" : "integration"
+		, mapping  = Len( directory ) ? "unit.api.#directory#" : "unit"
 		, filter   = function( required path ){
 			if ( scope=="quick" ) {
 				var excludes = [
