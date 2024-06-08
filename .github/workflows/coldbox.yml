@@ -84,7 +84,7 @@ jobs:
         uses: lucee/script-runner@main
         with:
             webroot: ${{ github.workspace }}
-            execute: /tests/runtests.cfm
+            execute: /test-harness/index.cfm
             luceeVersionQuery: ${{ env.luceeVersionQuery }}
             extensions: D062D72F-F8A2-46F0-8CBC91325B2F067B #orm
         env:

@@ -6,13 +6,14 @@ jobs:
   setup-presidecms:
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout
-      uses: actions/checkout@v4
     - name: Checkout PresideCMS Repository
       uses: actions/checkout@v4
       with:
         repository: pixl8/Preside-CMS
-        path: src
+    - name: Checkout
+      uses: actions/checkout@v4
+      with:
+        path: _custom
     - name: Copy custom test runner tweaks
       run: |
         cp -R _custom/custom/presidecms/tests/* tests
@@ -33,13 +34,12 @@ jobs:
 
     - name: Install dependencies
       run: |
-        cd src
         box install verbose=true system=false
     - name: installed webroot for matrix steps
       uses: actions/upload-artifact@v4
       with:
         name: webroot
-        path: ${{ github.workspace }}/src
+        path: ${{ github.workspace }}
 
   run-preside-tests:
     name: Preside CI
