@@ -82,9 +82,9 @@ jobs:
           webroot: ${{ github.workspace }}
           execute: /test/index.cfm
           luceeVersionQuery: ${{ matrix.luceeVersion }}
-      - name: stash home dir
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: webroot
-          path: ${{ github.workspace }}
+     - name: stash home dir
+       if: always()
+       uses: actions/upload-artifact@v4
+       with:
+         name: webroot-matrix
+         path: ${{ github.workspace }}
