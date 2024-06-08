@@ -78,7 +78,7 @@ jobs:
      - name: Run Test Suite
        uses: lucee/script-runner@main
        with:
-          webroot: ${{ github.workspace }}test/
+          webroot: ${{ github.workspace }}/test/
           execute: /index.cfm
           luceeVersionQuery: ${{ matrix.luceeVersion }}
      - name: stash home dir
