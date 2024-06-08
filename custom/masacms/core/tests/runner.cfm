@@ -15,7 +15,7 @@
 			type     : 'MySQL'
 			, port     : server.system.environment.db_port
 			, host     : server.system.environment.db_host
-			, database : server.system.environment.db_database
+			, database : server.system.environment.db_name
 			, username : server.system.environment.db_username
 			, password : server.system.environment.db_password
 			, custom   : {
