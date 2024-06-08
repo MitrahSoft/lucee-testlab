@@ -14,12 +14,8 @@
 		testRunner = New testbox.system.TestBox();
 		result = testRunner.runRaw( bundles=paths );
 		reporter = testRunner.buildReporter( "text" );
-		report = " disabled ";
-		try {
-	//		report = reporter.runReport( results=result, testbox=testRunner, justReturn=true );
-		} catch (e) {
-			systemOutput(e, true);
-		}
+		report = reporter.runReport( results=result, testbox=testRunner, justReturn=true );
+		
 		failure = ( result.getTotalFail() + result.getTotalError() ) > 0;
 
 //		#(failure?':x:':':heavy_check_mark:')#
