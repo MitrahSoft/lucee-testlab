@@ -10,7 +10,7 @@
 			password="admin"
 		);
 	}
-	application action="update" datasource={
+	application action="update" datasources={
 		"dsnMasaCMS"= {
 			type     : 'MySQL'
 			, port     : server.system.environment.db_port
