@@ -17,7 +17,7 @@ jobs:
         path: _custom
     - name: Copy custom test runner tweaks
       run: |
-        cp -R _custom/custom/muracms/core/tests/* core/tests
+        cp -R _custom/custom/masacms/core/tests/* core/tests
         rm -rf _custom
     - name: Set up JDK 11
       uses: actions/setup-java@v4
@@ -57,9 +57,9 @@ jobs:
      - name: Set up MySQL (local)
        run: |
           sudo systemctl start mysql
-          mysql -e 'CREATE DATABASE muracms' -uroot -proot
-          mysql -e 'CREATE USER "muracms"@"localhost" IDENTIFIED WITH mysql_native_password BY "preside";' -uroot -proot
-          mysql -e 'GRANT ALL PRIVILEGES ON muracms.* TO "muracms"@"localhost"' -uroot -proot
+          mysql -e 'CREATE DATABASE masacms' -uroot -proot
+          mysql -e 'CREATE USER "masacms"@"localhost" IDENTIFIED WITH mysql_native_password BY "preside";' -uroot -proot
+          mysql -e 'GRANT ALL PRIVILEGES ON masacms.* TO "masacms"@"localhost"' -uroot -proot
      - name: Cache Maven packages
        uses: actions/cache@v4
        with:
@@ -90,6 +90,6 @@ jobs:
        env:
           DB_PORT: 3306
           DB_HOST: localhost
-          DB_USER: muracms
-          DB_PASSWORD: muracms
-          DB_NAME: muracms
+          DB_USER: masacms
+          DB_PASSWORD: masacms
+          DB_NAME: masacms
