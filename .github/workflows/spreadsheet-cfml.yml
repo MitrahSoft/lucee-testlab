@@ -17,7 +17,7 @@ jobs:
         path: _custom
     - name: Copy custom test runner tweaks
       run: |
-        cp -R _custom/custom/spreadsheet-cfml/* .
+        cp -R _custom/custom/spreadsheet-cfml/test/* ~/test
         rm -rf _custom
         
     - name: Set up JDK 11
@@ -29,7 +29,7 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: webroot
-        path: ${{ github.workspace }}/
+        path: ${{ github.workspace }}
     
   tests:
     runs-on: ubuntu-latest
@@ -82,3 +82,9 @@ jobs:
           webroot: ${{ github.workspace }}
           execute: /test/index.cfm
           luceeVersionQuery: ${{ matrix.luceeVersion }}
+      - name: stash home dir
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: webroot
+          path: ${{ github.workspace }}
