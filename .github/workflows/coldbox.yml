@@ -3,7 +3,7 @@ on:
     workflow_dispatch:
     workflow_call:
 jobs:
-  setup-presidecms:
+  setup-coldbox:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout
@@ -37,10 +37,10 @@ jobs:
         name: webroot
         path: ${{ github.workspace }}/src
 
-  run-preside-tests:
-    name: Preside CI
+  run-coldbox-tests:
+    name: Coldbox Test
     runs-on: ubuntu-latest 
-    needs: [ setup-presidecms ]
+    needs: [ setup-coldbox ]
     strategy:
       fail-fast: false
       matrix:
@@ -86,11 +86,13 @@ jobs:
             webroot: ${{ github.workspace }}
             execute: /tests/runtests.cfm
             luceeVersionQuery: ${{ env.luceeVersionQuery }}
+            extensions: D062D72F-F8A2-46F0-8CBC91325B2F067B #orm
         env:
             DB_PORT: 3306
             DB_HOST: localhost
             DB_USER: coldbox
             DB_PASSWORD: coldbox
+            DB_CLASS: com.mysql.cj.jdbc.Driver
             DB_BUNDLENAME: com.mysql.cj
             DB_BUNDLEVERSION: 8.4.0
             DB_NAME: coolblog
