@@ -4,9 +4,9 @@
 	directory = url.directory ?: "";
 
 	configImport(
-		type: "web",
+		type: "server",
 		data: deserializeJSON(fileRead(expandpath(".cfconfig.json"))),
-		password=#request.adminPassword#
+		password="admin"
 	);
 	
 	testbox   = new testbox.system.TestBox( options={}, reporter=reporter, directory={
