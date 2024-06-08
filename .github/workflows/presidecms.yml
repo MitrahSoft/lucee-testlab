@@ -1,7 +1,7 @@
 name: Run PresideCMS test suite
 on:
     workflow_dispatch:
-    push:
+    workflow_call:
 jobs:
   setup-presidecms:
     runs-on: ubuntu-latest
