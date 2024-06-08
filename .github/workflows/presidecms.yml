@@ -33,7 +33,7 @@ jobs:
     - name: Install dependencies
       run: |
         cd src
-        box install
+        box install verbose=true system=false
     - name: installed webroot for matrix steps
       uses: actions/upload-artifact@v4
       with:
