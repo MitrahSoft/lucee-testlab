@@ -35,8 +35,8 @@ jobs:
 
     - name: Install dependencies
       run: |
-        box install
-    - name: installed webroot for matrix steps
+        box install -CommandBox_home=${{ github.workspace }}/.CommandBox verbose=true
+    - name: Store installed webroot for matrix steps
       uses: actions/upload-artifact@v4
       with:
         name: webroot
