@@ -6,10 +6,11 @@
 		result = testRunner.runRaw( bundles=paths );
 		reporter = testRunner.buildReporter( "text" );
 		try {
-			report = reporter.runReport( results=result, testbox=testRunner, justReturn=true );
+		//	report = reporter.runReport( results=result, testbox=testRunner, justReturn=true );
 		} catch (e) {
 			systemOutput(e, true);
 		}
+		report = "disabled";
 		failure = ( result.getTotalFail() + result.getTotalError() ) > 0;
 
 		headline = "Lucee #server.lucee.version# / Java #server.java.version#";
