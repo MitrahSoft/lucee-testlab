@@ -17,7 +17,7 @@ jobs:
         path: _custom
     - name: Copy custom test runner tweaks
       run: |
-        cp -R _custom/custom/spreadsheet-cfml .
+        cp -R _custom/custom/spreadsheet-cfml/ .
         rm -rf _custom
         
     - name: Set up JDK 11
@@ -79,6 +79,6 @@ jobs:
      - name: Run Test Suite
        uses: lucee/script-runner@main
        with:
-          webroot: ${{ github.workspace }}/test
+          webroot: ${{ github.workspace }}
           execute: /test/index.cfm
           luceeVersionQuery: ${{ matrix.luceeVersion }}
