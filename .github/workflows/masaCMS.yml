@@ -1,0 +1,95 @@
+name: Run MasaCMS test suite
+
+on:
+  [ workflow_dispatch, workflow_call ]
+
+jobs:
+  setup-MasaCMS:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout MasaCMS Repository
+      uses: actions/checkout@v4
+      with:
+        repository: MasaCMS/MasaCMS
+    - name: Checkout
+      uses: actions/checkout@v4
+      with:
+        path: _custom
+    - name: Copy custom test runner tweaks
+      run: |
+        cp -R _custom/custom/muracms/core/tests/* core/tests
+        rm -rf _custom
+    - name: Set up JDK 11
+      uses: actions/setup-java@v4
+      with:
+        java-version: 11
+        distribution: 'temurin'
+    - name: Store installed webroot for matrix steps
+      uses: actions/upload-artifact@v4
+      with:
+        name: webroot
+        path: ${{ github.workspace }}
+    
+  tests:
+    runs-on: ubuntu-latest
+    needs: [ setup-MasaCMS ]
+    strategy:
+      fail-fast: false
+      matrix:
+        luceeVersion: [ 5.4/snapshot/jar, 6.0/snapshot/jar, 6.1/snapshot/jar ]
+        javaVersion: [ 11, 21 ]
+        exclude: 
+            - luceeVersion: 5.4/snapshot/jar
+              javaVersion: 21
+            - luceeVersion: 6.0/snapshot/jar
+              javaVersion: 21
+    steps:
+     - name: Restore pre-prepared webroot
+       uses: actions/download-artifact@v4
+       with:
+         name: webroot
+         path: ${{ github.workspace }}
+     - name: Set up JDK ${{matrix.javaVersion}}
+       uses: actions/setup-java@v4
+       with:
+         java-version: ${{matrix.javaVersion}}
+         distribution: 'temurin'
+     - name: Set up MySQL (local)
+       run: |
+          sudo systemctl start mysql
+          mysql -e 'CREATE DATABASE muracms' -uroot -proot
+          mysql -e 'CREATE USER "muracms"@"localhost" IDENTIFIED WITH mysql_native_password BY "preside";' -uroot -proot
+          mysql -e 'GRANT ALL PRIVILEGES ON muracms.* TO "muracms"@"localhost"' -uroot -proot
+     - name: Cache Maven packages
+       uses: actions/cache@v4
+       with:
+          path: ~/.m2
+          key: maven-cache
+     - name: Cache Lucee files
+       uses: actions/cache@v4
+       with:
+          path: /home/runner/work/_actions/lucee/script-runner/main/lucee-download-cache
+          key: lucee-downloads
+     - name: Install the ortus security key
+       run: curl -fsSl https://downloads.ortussolutions.com/debs/gpg | gpg --dearmor | sudo tee /usr/share/keyrings/ortussolutions.gpg > /dev/null
+  
+     - name: Add the commandbox source
+       run: echo "deb [signed-by=/usr/share/keyrings/ortussolutions.gpg] https://downloads.ortussolutions.com/debs/noarch /" | sudo tee /etc/apt/sources.list.d/commandbox.list
+
+     - name: Update apt and install commandbox
+       run: sudo apt-get update && sudo apt-get install apt-transport-https commandbox
+
+     - name: Install dependencies
+       run: box install verbose=true
+     - name: Run Test Suite
+       uses: lucee/script-runner@main
+       with:
+          webroot: ${{ github.workspace }}/core/tests/
+          execute: /runner.cfm
+          luceeVersionQuery: ${{ matrix.luceeVersion }}
+       env:
+          DB_PORT: 3306
+          DB_HOST: localhost
+          DB_USER: muracms
+          DB_PASSWORD: muracms
+          DB_NAME: muracms
