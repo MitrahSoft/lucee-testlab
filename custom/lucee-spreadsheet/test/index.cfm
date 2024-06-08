@@ -1,26 +1,28 @@
 <cfscript>
 	paths = [ "root.test.suite" ];
 	try{
-		setting requesttimeout=10000;
-		testRunner = New testbox.system.TestBox();
-		result = testRunner.runRaw( bundles=paths );
-		reporter = testRunner.buildReporter( "text" );
-		try {
-		//	report = reporter.runReport( results=result, testbox=testRunner, justReturn=true );
-		} catch (e) {
-			systemOutput(e, true);
-		}
-		report = "disabled";
-		failure = ( result.getTotalFail() + result.getTotalError() ) > 0;
-
 		headline = "Lucee #server.lucee.version# / Java #server.java.version#";
 
 		if ( structKeyExists( server.system.environment, "GITHUB_STEP_SUMMARY" ) ){
-			fileWrite( server.system.environment.GITHUB_STEP_SUMMARY, "## #(failure?':x:':':heavy_check_mark:')#" & headline & chr(10) );
+			fileWrite( server.system.environment.GITHUB_STEP_SUMMARY, "##" & headline & chr(10) );
 			//fileAppend( server.system.environment.GITHUB_STEP_SUMMARY, report );
 		} else {
 			systemOutput( headline, true );
 		}
+
+		setting requesttimeout=10000;
+		testRunner = New testbox.system.TestBox();
+		result = testRunner.runRaw( bundles=paths );
+		reporter = testRunner.buildReporter( "text" );
+		report = " disabled ";
+		try {
+	//		report = reporter.runReport( results=result, testbox=testRunner, justReturn=true );
+		} catch (e) {
+			systemOutput(e, true);
+		}
+		failure = ( result.getTotalFail() + result.getTotalError() ) > 0;
+
+//		#(failure?':x:':':heavy_check_mark:')#
 		systemOutput( report, true );
 
 		if ( failure ) {
