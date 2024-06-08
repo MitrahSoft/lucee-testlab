@@ -8,15 +8,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout
-      uses: actions/checkout@v4 
+      uses: actions/checkout@v4
+      with:
+        path: _custom
     - name: Checkout lucee-spreadsheet Repository
       uses: actions/checkout@v4
       with:
         repository: cfsimplicity/spreadsheet-cfml
-        path: src
     - name: Copy custom test runner tweaks
       run: |
-        cp -R custom/lucee-spreadsheet src
+        cp -R _custom/lucee-spreadsheet .
     - name: Set up JDK 11
       uses: actions/setup-java@v4
       with:
@@ -33,13 +34,12 @@ jobs:
 
     - name: Install dependencies
       run: |
-        cd src
         box install
     - name: installed webroot for matrix steps
       uses: actions/upload-artifact@v4
       with:
         name: webroot
-        path: ${{ github.workspace }}/src
+        path: ${{ github.workspace }}/
     
   tests:
     runs-on: ubuntu-latest
