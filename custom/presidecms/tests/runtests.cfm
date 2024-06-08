@@ -2,6 +2,10 @@
 	reporter  = url.reporter  ?: "raw";
 	scope     = url.scope     ?: "full";
 	directory = url.directory ?: "";
+
+	systemOutput(expandPath("unit"), true);
+	systemOutput(DirectoryList("unit"), true);
+
 	testbox   = new testbox.system.TestBox( options={}, reporter=reporter, directory={
 		  recurse  = true
 		, mapping  = Len( directory ) ? "unit.api.#directory#" : "unit"
@@ -416,6 +420,8 @@
 	fails = arrayLen( failedTestCases );
 	if ( fails > 0 )
 		throw "#fails# test cases failed, exiting";
+	else if (result.getTotalPass() eq 0 )
+		throw "No tests passed, none found?, exiting";
 	else
 		abort;
 </cfscript>
