@@ -3,9 +3,12 @@
 	scope     = url.scope     ?: "full";
 	directory = url.directory ?: "";
 
-	systemOutput(expandPath("unit"), true);
-	systemOutput(DirectoryList("unit"), true);
-
+	configImport(
+		type: "web",
+		data: deserializeJSON(fileRead(expandpath(".cfconfig.json"))),
+		password=#request.adminPassword#
+	);
+	
 	testbox   = new testbox.system.TestBox( options={}, reporter=reporter, directory={
 		  recurse  = true
 		, mapping  = Len( directory ) ? "unit.api.#directory#" : "unit"
