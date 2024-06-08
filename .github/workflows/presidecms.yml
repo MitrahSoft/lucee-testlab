@@ -83,10 +83,6 @@ jobs:
             mysql -e 'CREATE DATABASE preside_test' -uroot -proot
             mysql -e 'CREATE USER "preside"@"localhost" IDENTIFIED WITH mysql_native_password BY "preside";' -uroot -proot
             mysql -e 'GRANT ALL PRIVILEGES ON preside_test.* TO "preside"@"localhost"' -uroot -proot
-      - name: chown testbox/system/stubs/ to runner
-        run: |
-          # /home/runner/work/Preside-CMS/Preside-CMS/tests/testbox/system/stubs/ is owned by root
-          sudo chown -R runner:docker tests/testbox/system/stubs/
       - name: Run Preside CMS Test Suite
         uses: lucee/script-runner@main
         with:
