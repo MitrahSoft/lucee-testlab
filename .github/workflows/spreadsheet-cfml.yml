@@ -81,3 +81,4 @@ jobs:
           webroot: ${{ github.workspace }}/test/
           execute: /index.cfm
           luceeVersionQuery: ${{ matrix.luceeVersion }}
+          compile: true

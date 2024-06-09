@@ -87,6 +87,7 @@ jobs:
             execute: /test-harness/index.cfm
             luceeVersionQuery: ${{ env.luceeVersionQuery }}
             extensions: D062D72F-F8A2-46F0-8CBC91325B2F067B #orm
+            compile: true
         env:
             DB_PORT: 3306
             DB_HOST: localhost

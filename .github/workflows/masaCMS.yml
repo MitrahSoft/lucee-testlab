@@ -95,6 +95,7 @@ jobs:
           webroot: ${{ github.workspace }}/core/tests/
           execute: /runner.cfm
           luceeVersionQuery: ${{ matrix.luceeVersion }}
+          compile: true
        env:
           DB_PORT: 3306
           DB_HOST: localhost

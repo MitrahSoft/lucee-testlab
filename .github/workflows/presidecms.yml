@@ -93,6 +93,7 @@ jobs:
             webroot: ${{ github.workspace }}/tests
             execute: /runtests.cfm
             luceeVersionQuery: ${{ env.luceeVersionQuery }}
+            compile: true
         env:
             PRESIDETEST_DB_PORT: 3306
             PRESIDETEST_DB_HOST: localhost
