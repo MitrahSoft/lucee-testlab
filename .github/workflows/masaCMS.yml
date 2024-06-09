@@ -24,7 +24,7 @@ jobs:
         cd _custom
         wget https://downloads.ortussolutions.com/ortussolutions/testbox/2.2.0/testbox-2.2.0.zip
         unzip testbox-2.2.0.zip
-        ls -l
+        mkdir ../core/vendor/testbox
         cp -R testbox core/vendor/testbox
         rm -rf _custom
     - name: Set up JDK 11
