@@ -22,7 +22,7 @@ jobs:
         cp _custom/custom/masacms/plugins/* plugins
         cp _custom/custom/masacms/config/* config
         cd _custom
-        wget https://downloads.ortussolutions.com/ortussolutions/testbox/${testboxVersion}/testbox-2.2.0.zip
+        wget https://downloads.ortussolutions.com/ortussolutions/testbox/2.2.0/testbox-2.2.0.zip
         unzip testbox-2.2.0.zip
         ls -l
         cp -R testbox core/vendor/testbox
