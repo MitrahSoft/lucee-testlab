@@ -4,14 +4,16 @@
 	directory = url.directory ?: "";
 
 	if (fileExists(expandpath(".cfconfig.json"))){
+		systemOutput("importing cfconfig.json", true);
 		configImport(
 			type: "server",
 			data: deserializeJSON(fileRead(expandpath(".cfconfig.json"))),
 			password="admin"
 		);
 	}
+	/*
 	application action="update" datasources={
-		"dsnMasaCMS"= {
+		"MasaCMS"= {
 			type     : 'MySQL'
 			, port     : server.system.environment.db_port
 			, host     : server.system.environment.db_host
@@ -24,7 +26,10 @@
 			}
 		}
 	};
-
+	dump(directoryList("/testbox"));
+	
+*/
+    systemOutput(getApplicationSettings().datasources.toJson(), true);
 	testbox = new testbox.system.TestBox( options={}, reporter=reporter, directory={
 		  recurse  = true
 		, mapping  = Len( directory ) ? directory : "muraWRM.core.tests.specs"
@@ -321,7 +326,7 @@
 		arrayAppend( results, "Lucee Version: #server.lucee.version#");
 		arrayAppend( results, "Java Version: #server.java.version#");
 		arrayAppend( results, "Java Compiler Version: #server.java.javaCompilerVersion?:'unknown'#");
-		arrayAppend( results, "Database: #identifyDatasource('preside_test_suite')#");
+		arrayAppend( results, "Database: #identifyDatasource('MasaCMS')#");
 		arrayAppend( results, "TestBox Version: #testbox.getVersion()#");
 		arrayAppend( results, "Total Execution time: (#NumberFormat( ( getTickCount()-request._start) / 1000 )# s)");
 		arrayAppend( results, "Test Execution time: (#NumberFormat( result.getTotalDuration() /1000 )# s)");
