@@ -30,6 +30,7 @@
 	
 */
     systemOutput(getApplicationSettings().datasources.toJson(), true);
+	systemOutput(getApplicationSettings().mappings, true);
 	testbox = new testbox.system.TestBox( options={}, reporter=reporter, directory={
 		  recurse  = true
 		, mapping  = Len( directory ) ? directory : "muraWRM.core.tests.specs"
