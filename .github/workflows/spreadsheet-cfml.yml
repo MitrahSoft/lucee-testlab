@@ -78,7 +78,7 @@ jobs:
      - name: Run Test Suite
        uses: lucee/script-runner@main
        with:
-          webroot: ${{ github.workspace }}/test/
-          execute: /index.cfm
+          webroot: ${{ github.workspace }}/
+          execute: /test/index.cfm
           luceeVersionQuery: ${{ matrix.luceeVersion }}
           compile: true
