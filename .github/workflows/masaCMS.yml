@@ -1,7 +1,13 @@
 name: Run MasaCMS test suite
 
 on:
-  [ workflow_dispatch, workflow_call ]
+  workflow_dispatch:
+    inputs:
+      compile:
+        required: false
+        default: false
+        type: boolean
+  workflow_call:
 
 jobs:
   setup-MasaCMS:
@@ -62,6 +68,8 @@ jobs:
               javaVersion: 21
             - luceeVersion: 6.0/snapshot/jar
               javaVersion: 21
+    env:
+      compile: ${{ github.event.inputs.compile }}
     steps:
      - name: Restore pre-prepared webroot
        uses: actions/download-artifact@v4
@@ -95,7 +103,7 @@ jobs:
           webroot: ${{ github.workspace }}/core/tests/
           execute: /runner.cfm
           luceeVersionQuery: ${{ matrix.luceeVersion }}
-          compile: true
+          compile: ${{env.compile}}
        env:
           DB_PORT: 3306
           DB_HOST: localhost
