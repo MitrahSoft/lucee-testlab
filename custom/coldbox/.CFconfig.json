@@ -1,0 +1,15 @@
+{
+    "datasources": {
+        "coolblog" : {
+            "host":"localhost",
+            "type": "MySQL",
+            "dsn": "jdbc:mysql://{host}:{port}/{database}",
+            "class": "com.mysql.cj.jdbc.Driver",
+            "database": "coolblog",
+            "port": "3306",
+            "username": "coldbox",
+            "password": "coldbox"
+        }
+    }
+}
+

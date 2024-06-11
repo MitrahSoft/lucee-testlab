@@ -1,0 +1,15 @@
+{
+    "datasources": {
+        "masacms" : {
+            "host":"localhost",
+            "type": "MySQL",
+            "dsn": "jdbc:mysql://{host}:{port}/{database}",
+            "class": "com.mysql.cj.jdbc.Driver",
+            "database": "masacms",
+            "port": "3306",
+            "username": "masacms",
+            "password": "masacms"
+        }
+    }
+}
+

@@ -23,6 +23,7 @@ jobs:
         path: _custom
     - name: Copy custom test runner tweaks
       run: |
+        cp _custom/custom/masacms/.CFconfig.json .
         cp -R _custom/custom/masacms/core/tests/* core/tests
         mkdir plugins
         cp _custom/custom/masacms/plugins/* plugins

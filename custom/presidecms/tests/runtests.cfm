@@ -3,15 +3,16 @@
 	scope     = url.scope     ?: "full";
 	directory = url.directory ?: "";
 
-	configImport(
-		type: "server",
-		data: deserializeJSON(fileRead(expandpath(".cfconfig.json"))),
-		password="admin"
-	);
-	
+	if (fileExists(expandpath(".cfconfig.json"))){
+		configImport(
+			type: "server",
+			data: deserializeJSON(fileRead(expandpath(".cfconfig.json"))),
+			password="admin"
+		);
+	}
 	testbox   = new testbox.system.TestBox( options={}, reporter=reporter, directory={
 		  recurse  = true
-		, mapping  = Len( directory ) ? "unit.api.#directory#" : "unit"
+		, mapping  = Len( directory ) ? directory : "unit"
 		, filter   = function( required path ){
 			if ( scope=="quick" ) {
 				var excludes = [
