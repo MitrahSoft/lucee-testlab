@@ -99,13 +99,4 @@ jobs:
             luceeVersionQuery: ${{ env.luceeVersionQuery }}
             extensions: D062D72F-F8A2-46F0-8CBC91325B2F067B #orm
             compile: ${{env.compile}}
-        env:
-            DB_PORT: 3306
-            DB_HOST: localhost
-            DB_USER: coldbox
-            DB_PASSWORD: coldbox
-            DB_CLASS: com.mysql.cj.jdbc.Driver
-            DB_BUNDLENAME: com.mysql.cj
-            DB_BUNDLEVERSION: 8.4.0
-            DB_NAME: coolblog
-            LUCEE_BASE_CONFIG: ${{ github.workspace }}/.cfconfig.json
+            luceeCFconfig: ${{ github.workspace }}/.cfconfig.json
