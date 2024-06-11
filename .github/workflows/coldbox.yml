@@ -11,16 +11,17 @@ jobs:
   setup-coldbox:
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout
-      uses: actions/checkout@v4
     - name: Checkout coldbox Repository
       uses: actions/checkout@v4
       with:
         repository: ColdBox/coldbox-platform
-        path: src
+    - name: Checkout
+      uses: actions/checkout@v4
+      with:
+        path: _custom
     - name: Copy custom test runner tweaks
       run: |
-        cp _custom/custom/coldbox/.CFconfig.json .
+        cp _custom/custom/coldbox/*.json ~
         rm -rf _custom
     - name: Set up JDK 11
       uses: actions/setup-java@v4
@@ -38,13 +39,12 @@ jobs:
 
     - name: Install dependencies
       run: |
-        cd src
         box install verbose=true system=false
     - name: installed webroot for matrix steps
       uses: actions/upload-artifact@v4
       with:
         name: webroot
-        path: ${{ github.workspace }}/src
+        path: ${{ github.workspace }}
 
   run-coldbox-tests:
     name: Coldbox Test
