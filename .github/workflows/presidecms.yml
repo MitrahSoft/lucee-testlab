@@ -1,6 +1,11 @@
 name: Run PresideCMS test suite
 on:
     workflow_dispatch:
+        inputs:
+            compile:
+                required: false
+                default: false
+                type: boolean
     workflow_call:
 jobs:
   setup-presidecms:
@@ -57,6 +62,7 @@ jobs:
               javaVersion: 21
     env:
         luceeVersionQuery: ${{ matrix.luceeVersion }}
+        compile: ${{ github.event.inputs.compile }}
     steps:
       - name: Restore pre-prepared webroot
         uses: actions/download-artifact@v4
@@ -93,7 +99,7 @@ jobs:
             webroot: ${{ github.workspace }}/tests
             execute: /runtests.cfm
             luceeVersionQuery: ${{ env.luceeVersionQuery }}
-            compile: false
+            compile: ${{ env.compile }}
         env:
             PRESIDETEST_DB_PORT: 3306
             PRESIDETEST_DB_HOST: localhost
