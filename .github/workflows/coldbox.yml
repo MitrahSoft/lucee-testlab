@@ -19,12 +19,6 @@ jobs:
       uses: actions/checkout@v4
       with:
         path: _custom
-    - name: Copy custom test runner tweaks
-      run: |
-        ls -la _custom/custom/coldbox/
-        cp -a _custom/custom/coldbox/. ~
-        ls -la
-        rm -rf _custom
     - name: Set up JDK 11
       uses: actions/setup-java@v4
       with:
@@ -93,6 +87,7 @@ jobs:
             mysql -e 'CREATE USER "coldbox"@"localhost" IDENTIFIED WITH mysql_native_password BY "preside";' -uroot -proot
             mysql -e 'GRANT ALL PRIVILEGES ON coolblog.* TO "coldbox"@"localhost"' -uroot -proot
             ls -la
+            cat .cfconfig.json
       - name: Run Coldbox Test Suite
         uses: lucee/script-runner@main
         with:
@@ -102,3 +97,12 @@ jobs:
             extensions: D062D72F-F8A2-46F0-8CBC91325B2F067B #orm
             compile: ${{env.compile}}
             luceeCFconfig: ${{ github.workspace }}/.cfconfig.json
+        env: 
+          DB_PORT: 3306
+          DB_HOST: localhost
+          DB_USER: coldbox
+          DB_PASSWORD: coldbox
+          DB_CLASS: com.mysql.cj.jdbc.Driver
+          DB_BUNDLENAME: com.mysql.cj
+          DB_BUNDLEVERSION: 8.4.0
+          DB_NAME: coolblog
