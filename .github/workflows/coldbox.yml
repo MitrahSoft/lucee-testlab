@@ -23,6 +23,7 @@ jobs:
       run: |
         ls -la _custom/custom/coldbox/
         cp -a _custom/custom/coldbox/. ~
+        ls -la
         rm -rf _custom
     - name: Set up JDK 11
       uses: actions/setup-java@v4
@@ -91,6 +92,7 @@ jobs:
             mysql -e 'CREATE DATABASE coolblog' -uroot -proot
             mysql -e 'CREATE USER "coldbox"@"localhost" IDENTIFIED WITH mysql_native_password BY "preside";' -uroot -proot
             mysql -e 'GRANT ALL PRIVILEGES ON coolblog.* TO "coldbox"@"localhost"' -uroot -proot
+            ls -la
       - name: Run Coldbox Test Suite
         uses: lucee/script-runner@main
         with:
