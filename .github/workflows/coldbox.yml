@@ -1,7 +1,12 @@
 name: Run Coldbox test suite
 on:
-    workflow_dispatch:
-    workflow_call:
+  workflow_dispatch:
+    inputs:
+      compile:
+        required: false
+        default: false
+        type: boolean
+  workflow_call:
 jobs:
   setup-coldbox:
     runs-on: ubuntu-latest
@@ -53,6 +58,7 @@ jobs:
               javaVersion: 21
     env:
         luceeVersionQuery: ${{ matrix.luceeVersion }}
+        compile: ${{ github.event.inputs.compile }}
     steps:
       - name: Restore pre-prepared webroot
         uses: actions/download-artifact@v4
@@ -87,7 +93,7 @@ jobs:
             execute: /test-harness/index.cfm
             luceeVersionQuery: ${{ env.luceeVersionQuery }}
             extensions: D062D72F-F8A2-46F0-8CBC91325B2F067B #orm
-            compile: true
+            compile: ${{env.compile}}
         env:
             DB_PORT: 3306
             DB_HOST: localhost
