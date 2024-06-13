@@ -29,7 +29,7 @@
 	
 	
 */
-	systemOutput(directoryList(path="/", recurse="true"), filter="*.cfc");
+	systemOutput(directoryList(path="/", recurse=true), true);
     systemOutput(getApplicationSettings().datasources.toJson(), true);
 	systemOutput(getApplicationSettings().mappings, true);
 	testbox = new testbox.system.TestBox( options={}, reporter=reporter, directory={
