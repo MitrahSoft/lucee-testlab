@@ -29,7 +29,9 @@
 	
 	
 */
-	systemOutput(directoryList(path="/", recurse=true), true);
+	files = directoryList(path="/", recurse=true);
+	for (f in files)
+		systemOutput(f, true);
     systemOutput(getApplicationSettings().datasources.toJson(), true);
 	systemOutput(getApplicationSettings().mappings, true);
 	testbox = new testbox.system.TestBox( options={}, reporter=reporter, directory={
