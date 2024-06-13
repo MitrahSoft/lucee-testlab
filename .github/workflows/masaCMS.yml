@@ -33,6 +33,7 @@ jobs:
         wget https://downloads.ortussolutions.com/ortussolutions/testbox/2.2.0/testbox-2.2.0.zip
         unzip testbox-2.2.0.zip
         cp -R testbox/* ../core/vendor/testbox
+        cp -R testbox/* ../core/tests/
         rm -rf _custom
     - name: Set up JDK 11
       uses: actions/setup-java@v4
