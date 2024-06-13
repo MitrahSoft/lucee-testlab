@@ -3,11 +3,11 @@
 	scope     = url.scope     ?: "full";
 	directory = url.directory ?: "";
 
-	if (fileExists(expandpath(".cfconfig.json"))){
+	if (fileExists(expandpath("/.cfconfig.json"))){
 		systemOutput("importing cfconfig.json", true);
 		configImport(
 			type: "server",
-			data: deserializeJSON(fileRead(expandpath(".cfconfig.json"))),
+			data: deserializeJSON(fileRead(expandpath("/.cfconfig.json"))),
 			password="admin"
 		);
 	}
@@ -26,9 +26,10 @@
 			}
 		}
 	};
-	dump(directoryList("/testbox"));
+	
 	
 */
+	systemOutput(directoryList(path="/", recurse="true"), filter="*.cfc");
     systemOutput(getApplicationSettings().datasources.toJson(), true);
 	systemOutput(getApplicationSettings().mappings, true);
 	testbox = new testbox.system.TestBox( options={}, reporter=reporter, directory={
