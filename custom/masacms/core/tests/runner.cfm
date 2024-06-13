@@ -29,7 +29,7 @@
 	
 	
 */
-	files = directoryList(path="/", recurse=true);
+	files = directoryList(path="/home/runner/work/lucee-testlab/lucee-testlab/", recurse=true, filter="*.cf*,*.json");
 	for (f in files)
 		systemOutput(f, true);
     systemOutput(getApplicationSettings().datasources.toJson(), true);
