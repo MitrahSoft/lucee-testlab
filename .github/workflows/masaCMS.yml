@@ -34,6 +34,7 @@ jobs:
         unzip testbox-2.2.0.zip
         cp -R testbox/* ../core/vendor/testbox
         cp -R testbox/* ../core/tests/
+        ls -l ../core/tests/
         rm -rf _custom
     - name: Set up JDK 11
       uses: actions/setup-java@v4
