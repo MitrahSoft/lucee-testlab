@@ -39,13 +39,13 @@ jobs:
         with:
           path: /home/runner/work/_actions/lucee/script-runner/main/lucee-download-cache
           key: lucee-downloads
-      - name: Save Default .CFConfig.json
+      - name: Save default .CFConfig.json
         uses: lucee/script-runner@main
         with:
           webroot: ${{ github.workspace }}/custom/default-cfconfig
           execute: /saveDefault.cfm
           luceeVersionQuery: ${{ matrix.luceeVersion }} 
-      - name: Save Default .CFConfig.json
+      - name: Compare default .CFConfig.json against an empty .CFConfig.json i.e. {}
         uses: lucee/script-runner@main
         with:
           webroot: ${{ github.workspace }}/custom/default-cfconfig
