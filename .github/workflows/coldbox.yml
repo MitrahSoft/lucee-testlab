@@ -87,10 +87,10 @@ jobs:
         run: |
             sudo systemctl start mysql
             mysql -e 'CREATE DATABASE coolblog' -uroot -proot
-            mysql -e 'CREATE USER "coldbox"@"localhost" IDENTIFIED WITH mysql_native_password BY "preside";' -uroot -proot
+            mysql -e 'CREATE USER "coldbox"@"localhost" IDENTIFIED WITH mysql_native_password BY "coldbox";' -uroot -proot
             mysql -e 'GRANT ALL PRIVILEGES ON coolblog.* TO "coldbox"@"localhost"' -uroot -proot
             ls -la
-            cat .cfconfig.json
+            cat .CFConfig.json
       - name: Run Coldbox Test Suite
         uses: lucee/script-runner@main
         with:
