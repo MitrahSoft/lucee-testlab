@@ -1,6 +1,6 @@
 <cfscript>
-    default = fileRead( expandPath( "./.CFConfig-default.json" ) ).toJson();
-    empty = fileRead( expandPath('{lucee-config}.CFConfig.json') ).toJson();
+    default = deserializeJSON( fileRead( expandPath( "./.CFConfig-default.json" ) ) );
+    empty = deserializeJSON( fileRead( expandPath('{lucee-config}.CFConfig.json') ) );
     
     for ( cfc in default.keyList() ){
         if (!structKeyExists( empty, cfg ) ){
