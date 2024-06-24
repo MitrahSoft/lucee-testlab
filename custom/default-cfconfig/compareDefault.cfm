@@ -1,6 +1,9 @@
 <cfscript>
     default = deserializeJSON( fileRead( expandPath( "./.CFConfig-default.json" ) ) );
-    empty = deserializeJSON( fileRead( expandPath('{lucee-config}.CFConfig.json') ) );
+    contextFiles = directoryList( path=Expandpath( "{lucee-config}" ), recurse=true );
+    for ( cf in contextFiles )
+        systemOutput( cf, true );
+    empty = deserializeJSON( fileRead( expandPath( '{lucee-config}.CFConfig.json' ) ) );
 
     ignore = [ "salt", "hspw" ];
     problems = 0;
