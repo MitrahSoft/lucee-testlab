@@ -19,6 +19,9 @@ jobs:
       uses: actions/checkout@v4
       with:
         path: _custom
+    - name: Copy custom test runner tweaks
+      run: |
+        cp -a _custom/custom/coldbox/.CFConfig.json .
     - name: Set up JDK 11
       uses: actions/setup-java@v4
       with:
@@ -96,7 +99,7 @@ jobs:
             luceeVersionQuery: ${{ env.luceeVersionQuery }}
             extensions: D062D72F-F8A2-46F0-8CBC91325B2F067B #orm
             compile: ${{env.compile}}
-            luceeCFconfig: ${{ github.workspace }}/.cfconfig.json
+            luceeCFconfig: ${{ github.workspace }}/.CFConfig.json
         env: 
           DB_PORT: 3306
           DB_HOST: localhost
