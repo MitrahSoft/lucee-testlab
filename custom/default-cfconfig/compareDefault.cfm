@@ -2,7 +2,7 @@
     default = fileRead( expandPath( "./.CFConfig-default.json" ) ).toJson();
     empty = fileRead( expandPath('{lucee-config}.CFConfig.json') ).toJson();
     
-    for ( cfc in default ){
+    for ( cfc in default.keyList() ){
         if (!structKeyExists( empty, cfg ) ){
             systemOutput("", true );
             systemOutput("#cfg# missing in empty .CFConfig.json", true );
