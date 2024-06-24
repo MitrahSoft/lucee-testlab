@@ -109,3 +109,4 @@ jobs:
           DB_BUNDLENAME: com.mysql.cj
           DB_BUNDLEVERSION: 8.4.0
           DB_NAME: coolblog
+          LUCEE_BASE_CONFIG: ${{ github.workspace }}/.CFConfig.json
