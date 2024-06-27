@@ -1,9 +1,28 @@
 <cfscript>
     default = deserializeJSON( fileRead( expandPath( "./.CFConfig-default.json" ) ) );
     contextFiles = directoryList( path=Expandpath( "{lucee-config}" ), recurse=true );
-    for ( cf in contextFiles )
-        systemOutput( cf, true );
-    empty = deserializeJSON( fileRead( expandPath( '{lucee-config}.CFConfig.json' ) ) );
+    cfgPAth = expandPath( '{lucee-config}.CFConfig.json' );
+    if ( !fileExists( cfgPath ) ){
+        for ( cf in contextFiles ) {
+            systemOutput( cf, true );
+        }
+        log = expandPath( '{lucee-config}/logs/out.log' );
+        if ( !fileExists( log ) ){
+            systemOutput( "" ):
+            systemOutput( "--------- out.log-----------" ):            
+            systemOutput( fileRead( log ) ):
+        }
+        errlog = expandPath( '{lucee-config}/logs/err.log' );
+        if ( !fileExists( errlog ) ){
+            systemOutput( "" ):
+            systemOutput( "--------- err.log-----------" ):
+            systemOutput( fileRead( errlog ) ):
+        }
+        
+        throw "missing .CFConfig.json [#cfgPath#]";
+    }
+    
+    empty = deserializeJSON( fileRead( cfgPath ) );
 
     ignore = [ "salt", "hspw" ];
     problems = 0;
