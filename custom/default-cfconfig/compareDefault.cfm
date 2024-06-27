@@ -17,7 +17,7 @@
             systemOutput( "--------- out.log-----------", true );
             systemOutput( fileRead( log ), true );
         } else {
-            systemOutput( " no out.log [#log#]", true );
+            systemOutput( "--------- no out.log [#log#]", true );
         }
         errlog = expandPath( '{lucee-config}/logs/err.log' );
         if ( fileExists( errlog ) ){
@@ -25,10 +25,8 @@
             systemOutput( "--------- err.log-----------", true );
             systemOutput( fileRead( errlog ), true );
         } else {
-            systemOutput( " no err.log [#errlog#]", true );
+            systemOutput( "--------- no err.log [#errlog#]", true );
         }
-        
-        
         throw "missing .CFConfig.json [#cfgPath#]";
     }
     
