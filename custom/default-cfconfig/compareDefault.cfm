@@ -8,15 +8,15 @@
         }
         log = expandPath( '{lucee-config}/logs/out.log' );
         if ( !fileExists( log ) ){
-            systemOutput( "" ):
-            systemOutput( "--------- out.log-----------" ):            
-            systemOutput( fileRead( log ) ):
+            systemOutput( "", true );
+            systemOutput( "--------- out.log-----------", true );
+            systemOutput( fileRead( log ), true );
         }
         errlog = expandPath( '{lucee-config}/logs/err.log' );
         if ( !fileExists( errlog ) ){
-            systemOutput( "" ):
-            systemOutput( "--------- err.log-----------" ):
-            systemOutput( fileRead( errlog ) ):
+            systemOutput( "", true );
+            systemOutput( "--------- err.log-----------", true );
+            systemOutput( fileRead( errlog ), true );
         }
         
         throw "missing .CFConfig.json [#cfgPath#]";
