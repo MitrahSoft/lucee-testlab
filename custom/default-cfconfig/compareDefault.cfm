@@ -1,8 +1,13 @@
 <cfscript>
     default = deserializeJSON( fileRead( expandPath( "./.CFConfig-default.json" ) ) );
-    contextFiles = directoryList( path=Expandpath( "{lucee-config}" ), recurse=true );
     cfgPAth = expandPath( '{lucee-config}.CFConfig.json' );
     if ( !fileExists( cfgPath ) ){
+        systemOutput( "", true );
+        systemOutput( "ERROR: missing .CFConfig.json [#cfgPath#]", true );
+        systemOutput( "", true );
+        
+        systemOutput( "--------- listing files under {lucee-config} -----------", true );
+        contextFiles = directoryList( path=Expandpath( "{lucee-config}" ), recurse=true );
         for ( cf in contextFiles ) {
             systemOutput( cf, true );
         }
