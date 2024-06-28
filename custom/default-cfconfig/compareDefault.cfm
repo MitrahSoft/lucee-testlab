@@ -12,11 +12,12 @@
         if ( !fileExists( cfgPath ) ){
             systemOutput( "update password via cfadmin didn't help either", true );
         
-            systemOutput( "--------- .CFConfig-empty.json-----------", true );
+            systemOutput( "--------- .CFConfig-empty.json -----------", true );
             emptyPath = expandPath( "./.CFConfig-empty.json" );
-           // empty = fileRead( emptyPath );
-           // systemOutput( empty, true );
+            empty = fileRead( emptyPath );
+            systemOutput( empty, true );
 
+            systemOutput( "", true );
             systemOutput( "", true );
             systemOutput( "ERROR: missing .CFConfig.json [#cfgPath#]", true );
             systemOutput( "", true );
