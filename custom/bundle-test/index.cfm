@@ -1,4 +1,7 @@
 <cfscript>
+
+    fileWrite( expandPath('{lucee-config}/password.txt'), "lucee" );
+
     systemOutput( "--- Bundle Test ---- " );
     systemOutput( "--- extensions are loaded on demand, so let's trigger them ---- " );
     systemOutput( "", true );
@@ -24,10 +27,10 @@
     generateArgon2Hash( "lucee" );
 
     systemOutput( "", true );
-    admin 
+    admin
         type="server"
-            password="lucee" 
-            action="getBundles" 
+            password="lucee"
+            action="getBundles"
             returnvariable="bundles";
     for ( bundle in bundles ){
         systemOutput( "#chr(9)# #bundle.symbolicName#, #bundles.version#, #bundles.state#", true );
