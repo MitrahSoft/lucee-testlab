@@ -40,13 +40,7 @@ jobs:
         with:
           path: /home/runner/work/_actions/lucee/script-runner/main/lucee-download-cache
           key: lucee-downloads
-      - name: Save default .CFConfig.json
-        uses: lucee/script-runner@main
-        with:
-          webroot: ${{ github.workspace }}/custom/default-cfconfig
-          execute: /saveDefault.cfm
-          luceeVersionQuery: ${{ matrix.luceeVersion }} 
-      - name: Load Lucee and extensins with LUCEE_ENABLE_BUNDLE_DOWNLOAD disabled
+      - name: Load Lucee and extensions with LUCEE_ENABLE_BUNDLE_DOWNLOAD disabled
         uses: lucee/script-runner@main
         with:
           webroot: ${{ github.workspace }}/custom/bundle-test
