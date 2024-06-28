@@ -14,7 +14,7 @@
         
             systemOutput( "--------- .CFConfig-empty.json-----------", true );
             empty = fileRead( expandPath( "./.CFConfig-empty.json" ) );
-            systemOutput( empty, true );
+           // systemOutput( empty, true );
 
             systemOutput( "", true );
             systemOutput( "ERROR: missing .CFConfig.json [#cfgPath#]", true );
@@ -41,7 +41,8 @@
             } else {
                 systemOutput( "--------- no err.log [#errlog#]", true );
             }
-            throw "missing .CFConfig.json [#cfgPath#]";
+           // throw "missing .CFConfig.json [#cfgPath#]";
+            cfgPath  = empty; // 6.1 simply updates the file at lucee.base.config
         }
     }
     
