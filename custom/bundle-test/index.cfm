@@ -28,6 +28,14 @@
 	*/
 	adminPassword = "lucee-test";
 	
+	for ( env in server.system.environment ) {
+		if ( env contains "LUCEE_ADMIN_" ) {
+			systemOutput( "ENV VAR #env#: #server.system.environment[ env ]#", true );
+		} else {
+			systemOutput( "ENV VAR #env#: ***", true );
+		}
+	}
+
 	function checkPassword() {
 		try {
 			admin action="connect"
