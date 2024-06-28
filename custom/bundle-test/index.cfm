@@ -25,12 +25,10 @@
 	systemOutput( "S3", true );
 	s3exists( bucketName="extension-download", objectName="test", accessKeyId="test", secretAccessKey="test" ); // will throw
 
-	/* 
-	broken
 	systemOutput( "", true );
 	systemOutput( "Argon", true );
 	generateArgon2Hash( "lucee" );
-	*/
+
 	adminPassword = "admin";
 	/*
 	for ( env in server.system.environment ) {
