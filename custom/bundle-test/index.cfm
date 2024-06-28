@@ -83,7 +83,7 @@
 
 	for ( bundle in bundles ){
 		if ( bundle.state != "active" )
-		systemOutput( "#chr(9)# #bundle.symbolicName#, #bundle.version#, #bundle.state#", true );
+		systemOutput( "#chr(9)# #bundle.title#, #bundle.symbolicName#, #bundle.version#, #bundle.state#", true );
 	}
 	systemOutput( "--- finished ---- " );
 </cfscript>
