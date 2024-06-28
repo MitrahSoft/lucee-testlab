@@ -107,3 +107,4 @@ jobs:
             PRESIDETEST_DB_PASSWORD: preside
             PRESIDETEST_DB_NAME: preside_test
             LUCEE_BASE_CONFIG: ${{ github.workspace }}/tests/.cfconfig.json
+            LUCEE_TYPE_CHECKING: false
