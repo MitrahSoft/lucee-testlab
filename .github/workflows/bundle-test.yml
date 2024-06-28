@@ -31,12 +31,14 @@ jobs:
           java-version: ${{matrix.javaVersion}}
           distribution: "temurin"
       - name: Cache Maven packages
+        if: always()
         uses: actions/cache@v4
         with:
           path: ~/.m2
           key: maven-cache
       - name: Cache Lucee files
         uses: actions/cache@v4
+        if: always()
         with:
           path: /home/runner/work/_actions/lucee/script-runner/main/lucee-download-cache
           key: lucee-downloads
