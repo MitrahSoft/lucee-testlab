@@ -1,4 +1,4 @@
-name: Run cfhweels test suite
+name: Run cfwheels test suite
 on:
     workflow_dispatch:
         inputs:
@@ -8,10 +8,10 @@ on:
                 type: boolean
     workflow_call:
 jobs:
-  setup-cfhweels:
+  setup-cfwheels:
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout cfhweels Repository
+    - name: Checkout cfwheels Repository
       uses: actions/checkout@v4
       with:
         repository: cfwheels/cfwheels
@@ -47,9 +47,9 @@ jobs:
         path: ${{ github.workspace }}
 
   run-tuffy-tests:
-    name: cfhweels CI
+    name: cfwheels CI
     runs-on: ubuntu-latest 
-    needs: [ setup-cfhweels ]
+    needs: [ setup-cfwheels ]
     strategy:
       fail-fast: false
       matrix:
@@ -87,7 +87,7 @@ jobs:
       - name: fix testbox
         run: |
             mkdir -p tests/testbox/system/stubs
-      - name: Run cfhweels Test Suite
+      - name: Run cfwheels Test Suite
         uses: lucee/script-runner@main
         with:
             webroot: ${{ github.workspace }}/tests
