@@ -28,7 +28,7 @@
 	*/
 
 	adminPassword = "lucee-test";
-
+	/*
 	systemOutput( "", true );
 	systemOutput( "writing password to #expandPath('{lucee-config}/password.txt')#", true );
 	fileWrite( expandPath('{lucee-config}/password.txt'), adminPassword );
@@ -37,7 +37,7 @@
 	admin
 		action="checkPassword"
 		type="server";
-
+	*/
 	/*
 	admin
 			action="updatePassword"
