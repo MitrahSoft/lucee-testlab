@@ -13,7 +13,8 @@
             systemOutput( "update password via cfadmin didn't help either", true );
         
             systemOutput( "--------- .CFConfig-empty.json-----------", true );
-            empty = fileRead( expandPath( "./.CFConfig-empty.json" ) );
+            emptyPath = expandPath( "./.CFConfig-empty.json" );
+           // empty = fileRead( emptyPath );
            // systemOutput( empty, true );
 
             systemOutput( "", true );
@@ -42,7 +43,7 @@
                 systemOutput( "--------- no err.log [#errlog#]", true );
             }
            // throw "missing .CFConfig.json [#cfgPath#]";
-            cfgPath  = empty; // 6.1 simply updates the file at lucee.base.config
+            cfgPath  = emptyPath; // 6.1 simply updates the file at lucee.base.config
         }
     }
     
