@@ -9,12 +9,17 @@
 
 	systemOutput( "", true );
 	systemOutput( "CFZIP", true );
-	file = getTempFile(getTempDirectory(), "test", "text" );
+	file = getTempFile( getTempDirectory(), "test", "text" );
+	fileWrite( file, "lucee-testlab" );
 	zip action="zip" source="#file#" file="#getTempFile(getTempDirectory(), "test", "zip")#";
 
 	systemOutput( "", true );
 	systemOutput( "PDF", true );
 	isPDFObject( file );
+
+	systemOutput( "", true );
+	systemOutput( "Image", true );
+	isImageFile( file );
 
 	systemOutput( "", true );
 	systemOutput( "S3", true );
@@ -77,7 +82,8 @@
 		returnvariable="bundles";
 
 	for ( bundle in bundles ){
-		systemOutput( "#chr(9)# #bundle.symbolicName#, #bundles.version#, #bundles.state#", true );
+		if ( bundle.state != "active" )
+		systemOutput( "#chr(9)# #bundle.symbolicName#, #bundle.version#, #bundle.state#", true );
 	}
 	systemOutput( "--- finished ---- " );
 </cfscript>
