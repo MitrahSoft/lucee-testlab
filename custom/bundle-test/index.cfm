@@ -27,9 +27,11 @@
 	generateArgon2Hash( "lucee" );
 	*/
 
+	adminPassword = "lucee-test";
+
 	systemOutput( "", true );
 	systemOutput( "writing password to #expandPath('{lucee-config}/password.txt')#", true );
-	fileWrite( expandPath('{lucee-config}/password.txt'), "lucee" );
+	fileWrite( expandPath('{lucee-config}/password.txt'), adminPassword );
 
 	systemOutput( "check password", true );
 	admin
@@ -45,7 +47,7 @@
 	*/
 	systemOutput( "getBundles", true );
 	admin type="server"
-		password="lucee"
+		password=adminPassword
 		action="getBundles"
 		returnvariable="bundles";
 
