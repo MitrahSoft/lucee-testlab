@@ -31,6 +31,7 @@
 	systemOutput( "writing password to #expandPath('{lucee-config}/password.txt')#", true );
 	fileWrite( expandPath('{lucee-config}/password.txt'), "lucee" );
 
+	systemOutput( "check password", true );
 	admin
 		action="checkPassword"
 		type="server";
@@ -42,12 +43,12 @@
 			oldPassword=""
 			newPassword="lucee";
 	*/
-	
-	admin
-		type="server"
-			password="lucee"
-			action="getBundles"
-			returnvariable="bundles";
+	systemOutput( "getBundles", true );
+	admin type="server"
+		password="lucee"
+		action="getBundles"
+		returnvariable="bundles";
+
 	for ( bundle in bundles ){
 		systemOutput( "#chr(9)# #bundle.symbolicName#, #bundles.version#, #bundles.state#", true );
 	}
