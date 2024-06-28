@@ -1,33 +1,48 @@
 <cfscript>
     default = deserializeJSON( fileRead( expandPath( "./.CFConfig-default.json" ) ) );
-    cfgPAth = expandPath( '{lucee-config}.CFConfig.json' );
+    cfgPath = expandPath( '{lucee-config}.CFConfig.json' );
     if ( !fileExists( cfgPath ) ){
-        systemOutput( "", true );
-        systemOutput( "ERROR: missing .CFConfig.json [#cfgPath#]", true );
-        systemOutput( "", true );
+
+        admin
+            action="updatePassword"
+            type="server"
+            oldPassword="admin"
+            newPassword="admin";
         
-        systemOutput( "--------- listing files under {lucee-config} -----------", true );
-        contextFiles = directoryList( path=Expandpath( "{lucee-config}" ), recurse=true );
-        for ( cf in contextFiles ) {
-            systemOutput( cf, true );
-        }
-        log = expandPath( '{lucee-config}/logs/out.log' );
-        if ( fileExists( log ) ){
+        if ( !fileExists( cfgPath ) ){
+            systemOutput( "update password via cfadmin didn't help either", true );
+        
+            systemOutput( "--------- .CFConfig-empty.json-----------", true );
+            empty = fileRead( expandPath( "./.CFConfig-empty.json" ) );
+            systemOutput( empty, true );
+
             systemOutput( "", true );
-            systemOutput( "--------- out.log-----------", true );
-            systemOutput( fileRead( log ), true );
-        } else {
-            systemOutput( "--------- no out.log [#log#]", true );
-        }
-        errlog = expandPath( '{lucee-config}/logs/err.log' );
-        if ( fileExists( errlog ) ){
+            systemOutput( "ERROR: missing .CFConfig.json [#cfgPath#]", true );
             systemOutput( "", true );
-            systemOutput( "--------- err.log-----------", true );
-            systemOutput( fileRead( errlog ), true );
-        } else {
-            systemOutput( "--------- no err.log [#errlog#]", true );
+            
+            systemOutput( "--------- listing files under {lucee-config} -----------", true );
+            contextFiles = directoryList( path=Expandpath( "{lucee-config}" ), recurse=true );
+            for ( cf in contextFiles ) {
+                systemOutput( cf, true );
+            }
+            log = expandPath( '{lucee-config}/logs/out.log' );
+            if ( fileExists( log ) ){
+                systemOutput( "", true );
+                systemOutput( "--------- out.log-----------", true );
+                systemOutput( fileRead( log ), true );
+            } else {
+                systemOutput( "--------- no out.log [#log#]", true );
+            }
+            errlog = expandPath( '{lucee-config}/logs/err.log' );
+            if ( fileExists( errlog ) ){
+                systemOutput( "", true );
+                systemOutput( "--------- err.log-----------", true );
+                systemOutput( fileRead( errlog ), true );
+            } else {
+                systemOutput( "--------- no err.log [#errlog#]", true );
+            }
+            throw "missing .CFConfig.json [#cfgPath#]";
         }
-        throw "missing .CFConfig.json [#cfgPath#]";
     }
     
     empty = deserializeJSON( fileRead( cfgPath ) );
