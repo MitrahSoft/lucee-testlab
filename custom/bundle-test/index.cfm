@@ -23,5 +23,15 @@
     systemOutput( "Argon", true );
     generateArgon2Hash( "lucee" );
 
+    systemOutput( "", true );
+    admin 
+        type="server"
+            password="lucee" 
+            action="getBundles" 
+            returnvariable="bundles";
+    for ( bundle in bundles ){
+        systemOutput( "#chr(9)# #bundle.symbolicName#, #bundles.version#, #bundles.state#", true );
+    }
+
     systemOutput( "--- finished ---- " );
 </cfscript>

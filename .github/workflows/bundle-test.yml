@@ -49,4 +49,5 @@ jobs:
         env:
           LUCEE_CLI_PRINTEXCEPTIONS: TRUE
           LUCEE_ENABLE_BUNDLE_DOWNLOAD: FALSE
+          LUCEE_ADMIN_PASSWORD: lucee
   
