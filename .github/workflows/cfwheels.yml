@@ -90,7 +90,7 @@ jobs:
       - name: Run cfwheels Test Suite
         uses: lucee/script-runner@main
         with:
-            webroot: ${{ github.workspace }}/tests
-            execute: /runtests.cfm
+            webroot: ${{ github.workspace }}
+            execute: /tests/runtests.cfm
             luceeVersionQuery: ${{ env.luceeVersionQuery }}
             compile: ${{ env.compile }}
