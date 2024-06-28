@@ -26,15 +26,16 @@
 	systemOutput( "Argon", true );
 	generateArgon2Hash( "lucee" );
 	*/
-	adminPassword = "lucee-test";
-	
+	adminPassword = "admin";
+	/*
 	for ( env in server.system.environment ) {
 		if ( env contains "LUCEE_ADMIN_" ) {
 			systemOutput( "ENV VAR #env#: #server.system.environment[ env ]#", true );
 		} else {
-			systemOutput( "ENV VAR #env#: ***", true );
+			// systemOutput( "ENV VAR #env#: ***", true );
 		}
 	}
+	*/
 
 	function checkPassword() {
 		try {
@@ -47,7 +48,7 @@
 		return true;
 	}
 
-	systemOutput( "see if password is set via env var: #checkPassword()#", true );
+	systemOutput( "see if admin password is set and working : #checkPassword()#", true );
 
 	if (!checkPassword() ) {
 		systemOutput( "try updatePassword", true );
