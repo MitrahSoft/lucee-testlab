@@ -26,26 +26,42 @@
 	systemOutput( "Argon", true );
 	generateArgon2Hash( "lucee" );
 	*/
-
 	adminPassword = "lucee-test";
-	/*
-	systemOutput( "", true );
-	systemOutput( "writing password to #expandPath('{lucee-config}/password.txt')#", true );
-	fileWrite( expandPath('{lucee-config}/password.txt'), adminPassword );
+	
+	function checkPassword() {
+		try {
+			admin action="connect"
+					type="server"
+					password=adminPassword;
+		} catch ( e ) {
+			return false;
+		}
+		return true;
+	}
 
-	systemOutput( "check password", true );
-	admin
-		action="checkPassword"
-		type="server";
-	*/
-	/*
-	admin
+	systemOutput( "see if password is set via env var: #checkPassword()#", true );
+
+	if (!checkPassword() ) {
+		systemOutput( "try updatePassword", true );
+		dmin
 			action="updatePassword"
 			type="server"
 			oldPassword=""
-			newPassword="lucee";
-	*/
+			newPassword="#adminPassword#";
+	}
+
+	if (!checkPassword() ) {
+		systemOutput( "try writing password to #expandPath('{lucee-config}/password.txt')#", true );
+		fileWrite( expandPath('{lucee-config}/password.txt'), adminPassword );
+
+		systemOutput( "check password", true );
+		admin
+			action="checkPassword"
+			type="server";	
+	}
+
 	systemOutput( "getBundles", true );
+	
 	admin type="server"
 		password=adminPassword
 		action="getBundles"
