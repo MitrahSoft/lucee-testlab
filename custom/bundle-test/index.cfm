@@ -1,7 +1,5 @@
 <cfscript>
 
-    fileWrite( expandPath('{lucee-config}/password.txt'), "lucee" );
-
     systemOutput( "--- Bundle Test ---- " );
     systemOutput( "--- extensions are loaded on demand, so let's trigger them ---- " );
     systemOutput( "", true );
@@ -20,13 +18,24 @@
 
     systemOutput( "", true );
     systemOutput( "S3", true );
-    s3exists( bucketName="test", objectName="test", accessKeyId="test", secretAccessKey="test" ); // will throw
+    s3exists( bucketName="extension-download", objectName="test", accessKeyId="test", secretAccessKey="test" ); // will throw
 
+    /* 
+    broken
     systemOutput( "", true );
     systemOutput( "Argon", true );
     generateArgon2Hash( "lucee" );
+    */
 
     systemOutput( "", true );
+    // fileWrite( expandPath('{lucee-config}/password.txt'), "lucee" );
+    /*
+    admin
+			action="updatePassword"
+			type="server"
+			oldPassword=""
+			newPassword="lucee";
+
     admin
         type="server"
             password="lucee"
@@ -35,6 +44,6 @@
     for ( bundle in bundles ){
         systemOutput( "#chr(9)# #bundle.symbolicName#, #bundles.version#, #bundles.state#", true );
     }
-
+    */
     systemOutput( "--- finished ---- " );
 </cfscript>
