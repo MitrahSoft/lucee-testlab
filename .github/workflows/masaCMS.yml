@@ -103,7 +103,7 @@ jobs:
        with:
           path: /home/runner/work/_actions/lucee/script-runner/main/lucee-download-cache
           key: lucee-downloads
-     - name: Run Test Suite
+     - name: Setup MasaCMS database schema
        uses: lucee/script-runner@main
        with:
           webroot: ${{ github.workspace }}/
@@ -119,3 +119,17 @@ jobs:
           MURA_DBPASSWORD: masacms
           MURA_DATABASE: masacms
           MURA_DATASOURCE: masacms
+     - name: Run MasaCMS Test Suite
+       uses: lucee/script-runner@main
+       with:
+           webroot: ${{ github.workspace }}/
+           execute: /core/tests/runner.cfm
+           luceeVersionQuery: ${{ matrix.luceeVersion }}
+       env:
+           MURA_DBTYPE: mysql
+           MURA_DBPORT: 3306
+           MURA_DBHOST: localhost
+           MURA_DBUSERNAME: masacms
+           MURA_DBPASSWORD: masacms
+           MURA_DATABASE: masacms
+           MURA_DATASOURCE: masacms
