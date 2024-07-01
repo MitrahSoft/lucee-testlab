@@ -1,12 +1,13 @@
 <cfscript>
-    if (fileExists(expandpath("/core/tests/.cfconfig.json"))){
-		systemOutput("importing cfconfig.json (mappings)", true);
-		cfg= configImport(
+    if (fileExists(expandpath("/.cfconfig.json"))){
+		systemOutput("importing cfconfig.json", true);
+		configImport(
 			type: "server",
-			data: deserializeJSON(fileRead(expandpath("/core/tests/.cfconfig.json"))),
+			data: deserializeJSON(fileRead(expandpath("/.cfconfig.json"))),
 			password="admin"
 		);
-        systemOutput(cfg, true);
+	} else {
+		systemOutput( "File not found [#expandpath("/.cfconfig.json")#]", true );
 	}
    // sleep(2000);
     systemOutput(getApplicationSettings().datasources.toJson(), true);
