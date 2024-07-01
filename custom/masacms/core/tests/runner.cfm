@@ -10,6 +10,8 @@
 			data: deserializeJSON(fileRead(expandpath("/.cfconfig.json"))),
 			password="admin"
 		);
+	} else {
+		systemOutput( "File not found [#expandpath("/.cfconfig.json")#]", true );
 	}
 	/*
 	application action="update" datasources={
