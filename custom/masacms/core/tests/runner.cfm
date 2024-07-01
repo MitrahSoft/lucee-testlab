@@ -29,6 +29,17 @@
 	
 	
 */
+	// https://github.com/MasaCMS/MasaCMS/issues/313#issuecomment-2182769621
+	systemOutput( "calling ?appreload&reload=appreload&applydbupdates=true via internalRequest", true );
+	_internalRequest(
+		template="/index.cfm",
+		urls={
+			appreload: true,
+			reload: "appreload",
+			applydbupdates: true
+		}
+	);
+
 	files = directoryList(path="/home/runner/work/lucee-testlab/lucee-testlab/", recurse=true, filter="*.cf*,*.json");
 	for (f in files)
 		systemOutput(f, true);
