@@ -110,11 +110,11 @@ jobs:
           execute: /core/tests/runner.cfm
           luceeVersionQuery: ${{ matrix.luceeVersion }}
           compile: ${{env.compile}}
-          # luceeCFconfig: ${{ github.workspace }}/.CFConfig.json
        env:
-          DB_PORT: 3306
-          DB_HOST: localhost
-          DB_USER: masacms
-          DB_PASSWORD: masacms
-          DB_NAME: masacms
-          # LUCEE_BASE_CONFIG: ${{ github.workspace }}/.CFConfig.json
+          MURA_DBTYPE: mysql
+          MURA_DBPORT: 3306
+          MURA_DBHOST: localhost
+          MURA_DBUSERNAME: masacms
+          MURA_DBPASSWORD: masacms
+          MURA_DATABASE: masacms
+          MURA_DATASOURCE: masacms
