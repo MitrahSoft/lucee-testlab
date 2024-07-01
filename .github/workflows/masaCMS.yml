@@ -112,6 +112,7 @@ jobs:
           compile: ${{env.compile}}
           antFlags: -Dappreload="" -Dreload="appreload" -Dapplydbupdates="true"
        env:
+          ANT_CMD_LINE_ARGS: -Dappreload="" -Dreload="appreload" -Dapplydbupdates="true"
           MURA_DBTYPE: mysql
           MURA_DBPORT: 3306
           MURA_DBHOST: localhost
