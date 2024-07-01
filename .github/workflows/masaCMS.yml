@@ -110,6 +110,7 @@ jobs:
           execute: /core/tests/runner.cfm
           luceeVersionQuery: ${{ matrix.luceeVersion }}
           compile: ${{env.compile}}
+          antFlags: -Dappreload="" -Dreload="appreload" -Dapplydbupdates="true"
        env:
           MURA_DBTYPE: mysql
           MURA_DBPORT: 3306
