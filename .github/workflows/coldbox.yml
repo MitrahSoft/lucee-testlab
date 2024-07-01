@@ -99,7 +99,7 @@ jobs:
             luceeVersionQuery: ${{ env.luceeVersionQuery }}
             extensions: D062D72F-F8A2-46F0-8CBC91325B2F067B #orm
             compile: ${{env.compile}}
-            luceeCFconfig: ${{ github.workspace }}/.CFConfig.json
+            luceeCFConfig: ${{ github.workspace }}/.CFConfig.json
         env: 
           DB_PORT: 3306
           DB_HOST: localhost
