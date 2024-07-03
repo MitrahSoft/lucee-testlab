@@ -55,5 +55,16 @@
 	}
 
 	systemoutput("", true);
+	loop list="out.log,err.log,application.log,deploy.log,exception.log" item="logFile"{
+		log = expandPath( '{lucee-config}/logs/#logFile#' );
+		if ( fileExists( log ) ){
+			systemOutput( "", true );
+			systemOutput( "--------- #logFile#-----------", true );
+			systemOutput( fileRead( log ), true );
+		} else {
+			systemOutput( "--------- no #logFile# [#log#]", true );
+		}
+	}
+	
 
 </cfscript>
