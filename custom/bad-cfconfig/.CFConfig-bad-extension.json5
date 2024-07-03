@@ -122,7 +122,7 @@
         "deploy": {
             "appender": "resource",
             "appenderArguments": "path:{lucee-config}/logs/deploy.log",
-            "level": "info",
+            "level": "trace",
             "layout": "classic"
         },
         "thread": {
@@ -131,32 +131,17 @@
             "level": "error",
             "layout": "classic"
         },
-        "update-provider": {
-            "appenderArguments": "environment:%7Benv%2ESENTRY%5FENV%7D;dist:;extras:;dsn:%7Benv%2ESENTRY%5FDSN%7D;debug:true;tags",
-            "level": "error",
-            "appenderClass": "org.lucee.extension.sentry.log.log4j.SentryAppenderLog4j2",
-            "appenderBundleName": "sentry.extension",
-            "appenderBundleVersion": "5.5.2.15",
-            "layoutClass": "lucee.commons.io.log.log4j2.layout.ClassicLayout",
-            "layoutArguments": ""
-        },
         "exception": {
-            "appenderArguments": "environment:%7Benv%2ESENTRY%5FENV%7D;dist:;extras:;dsn:%7Benv%2ESENTRY%5FDSN%7D;debug:true;tags",
+            "appender": "resource",
+            "appenderArguments": "path:{lucee-config}/logs/exception.log",
             "level": "error",
-            "appenderClass": "org.lucee.extension.sentry.log.log4j.SentryAppenderLog4j2",
-            "appenderBundleName": "sentry.extension",
-            "appenderBundleVersion": "5.5.2.15",
-            "layoutClass": "lucee.commons.io.log.log4j2.layout.ClassicLayout",
-            "layoutArguments": ""
+            "layout": "classic"
         },
         "application": {
-            "appenderArguments": "environment:%7Benv%2ESENTRY%5FENV%7D;dist:;extras:;dsn:%7Benv%2ESENTRY%5FDSN%7D;debug:true;tags",
+            "appender": "resource",
+            "appenderArguments": "path:{lucee-config}/logs/application.log",
             "level": "info",
-            "appenderClass": "org.lucee.extension.sentry.log.log4j.SentryAppenderLog4j2",
-            "appenderBundleName": "sentry.extension",
-            "appenderBundleVersion": "5.5.2.15",
-            "layoutClass": "lucee.commons.io.log.log4j2.layout.ClassicLayout",
-            "layoutArguments": ""
+            "layout": "classic"
         },
         "scope": {
             "appender": "resource",
@@ -201,13 +186,10 @@
             "layout": "classic"
         },
         "rest": {
-            "appenderArguments": "environment:%7Benv%2ESENTRY%5FENV%7D;dist:;extras:;dsn:%7Benv%2ESENTRY%5FDSN%7D;debug:true;tags",
+            "appender": "resource",
+            "appenderArguments": "path:{lucee-config}/logs/rest.log",
             "level": "error",
-            "appenderClass": "org.lucee.extension.sentry.log.log4j.SentryAppenderLog4j2",
-            "appenderBundleName": "sentry.extension",
-            "appenderBundleVersion": "5.5.2.15",
-            "layoutClass": "lucee.commons.io.log.log4j2.layout.ClassicLayout",
-            "layoutArguments": ""
+            "layout": "classic"
         },
         "mapping": {
             "appender": "resource",

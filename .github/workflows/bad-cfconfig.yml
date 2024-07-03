@@ -49,8 +49,6 @@ jobs:
           luceeVersionQuery: ${{ matrix.luceeVersion }}
         env:
           LUCEE_BASE_CONFIG: ${{ github.workspace }}/custom/bad-cfconfig/.CFConfig-good.json5
-          SENTRY_DSN: http://localhost
-          SENTRY_ENV: testlab
 
       - name: Copy .CFConfig-good.json5 into context
         if: always()
@@ -65,9 +63,6 @@ jobs:
             execute: /debug.cfm
             luceeVersionQuery: ${{ matrix.luceeVersion }}
             preCleanup: false
-        env:
-            SENTRY_DSN: http://localhost
-            SENTRY_ENV: testlab
 
       - name: Check bad .CFConfig with unknown extension version LUCEE_BASE_CONFIG
         uses: lucee/script-runner@main
