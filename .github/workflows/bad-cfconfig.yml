@@ -1,0 +1,65 @@
+name: Check Bad .CFConfigs
+
+on:
+  workflow_dispatch:
+  workflow_call:
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        luceeVersion:
+          [
+            6.0/snapshot/jar,
+            6.1/snapshot/jar,
+            6.1.0/snapshot/jar,
+            6.2/snapshot/jar,
+          ]
+        javaVersion: [ 11 ]
+    env:
+        luceeVersionQuery: ${{ matrix.luceeVersion }}
+        compile: ${{ github.event.inputs.compile }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set up JDK ${{matrix.javaVersion}}
+        uses: actions/setup-java@v4
+        with:
+          java-version: ${{matrix.javaVersion}}
+          distribution: "temurin"
+      - name: Cache Maven packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.m2
+          key: maven-cache
+      - name: Cache Lucee files
+        uses: actions/cache@v4
+        with:
+          path: /home/runner/work/_actions/lucee/script-runner/main/lucee-download-cache
+          key: lucee-downloads
+      - name: Check good .CFConfig.json
+        uses: lucee/script-runner@main
+        with:
+          execute: /debug.cfm
+          luceeVersionQuery: ${{ matrix.luceeVersion }}
+        env:
+          LUCEE_BASE_CONFIG: ${{ github.workspace }}/custom/bad-cfconfig/.CFConfig-good.json5
+      - name: Check bad .CFConfig with unknown extension version
+        uses: lucee/script-runner@main
+        if: always()
+        with:
+          execute: /debug.cfm
+          luceeVersionQuery: ${{ matrix.luceeVersion }}
+        env:
+          LUCEE_BASE_CONFIG: ${{ github.workspace }}/custom/bad-cfconfig/.CFConfig-bad-extension.json5
+      - name: Check bad .CFConfig missing file
+        uses: lucee/script-runner@main
+        if: always()
+        with:
+          execute: /debug.cfm
+          luceeVersionQuery: ${{ matrix.luceeVersion }}
+        env:
+          LUCEE_BASE_CONFIG: ${{ github.workspace }}/custom/bad-cfconfig/.CFConfig-404.json5
+  
