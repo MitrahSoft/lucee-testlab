@@ -42,6 +42,7 @@ jobs:
       - name: Check good .CFConfig.json
         uses: lucee/script-runner@main
         with:
+          webroot: ${{ github.workspace }}/custom/bad-cfconfig
           execute: /debug.cfm
           luceeVersionQuery: ${{ matrix.luceeVersion }}
         env:
@@ -50,6 +51,7 @@ jobs:
         uses: lucee/script-runner@main
         if: always()
         with:
+          webroot: ${{ github.workspace }}/custom/bad-cfconfig
           execute: /debug.cfm
           luceeVersionQuery: ${{ matrix.luceeVersion }}
         env:
@@ -58,6 +60,7 @@ jobs:
         uses: lucee/script-runner@main
         if: always()
         with:
+          webroot: ${{ github.workspace }}/custom/bad-cfconfig
           execute: /debug.cfm
           luceeVersionQuery: ${{ matrix.luceeVersion }}
         env:
