@@ -69,7 +69,7 @@ jobs:
         if: always()
         run: |
           mkdir -p /home/runner/work/_actions/lucee/script-runner/main/temp/lucee/lucee-server/context/
-          cp -a ${{ github.workspace }}/custom/bad-cfconfig/.CFConfig-bad-extension.json5 /home/runner/work/_actions/lucee/script-runner/main/temp/lucee/lucee-server/context/CFConfig.json
+          cp -a ${{ github.workspace }}/custom/bad-cfconfig/.CFConfig-bad-extension.json5 /home/runner/work/_actions/lucee/script-runner/main/temp/lucee/lucee-server/context/.CFConfig.json
       - name: Check bad .CFConfig with unknown extension version (via context)
         uses: lucee/script-runner@main
         if: always()
