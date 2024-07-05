@@ -256,6 +256,16 @@
       "inspectTemplate": "once",
       "topLevel": "true",
       "readOnly": "true"
+    },
+    "/admin": {
+      "physical": "{lucee-config}/context/admin",
+      "archive": "{lucee-config}/context/lucee-admin.lar",
+      "primary": "physical",
+      "listenerType": "modern",
+      "listenerMode": "curr2root",
+      "inspectTemplate": "once",
+      "topLevel": "true",
+      "readOnly": "true"
     }
   },
   "orm": {
