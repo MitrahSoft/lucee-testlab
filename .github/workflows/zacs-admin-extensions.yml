@@ -45,8 +45,8 @@ jobs:
       - name: Check Zac's admin plugins compile as they often catch regressions
         uses: lucee/script-runner@main
         with:
-          webroot: ${{ github.workspace }}/custom/default-cfconfig
-          execute: /compareDefault.cfm
+          webroot: ${{ github.workspace }}/custom/bad-cfconfig
+          execute: /debug.cfm
           luceeVersionQuery: ${{ matrix.luceeVersion }}
           compile: true
           extensions: 91AF5D75-8CEF-4510-A170240C401F5FBA,A345C8CB-04CC-4D2B-93D50471D5105D83 # log viewer, performance analyzer
