@@ -12,10 +12,11 @@ jobs:
       matrix:
         luceeVersion:
           [
-            6.0/snapshot/light,
-            6.1/snapshot/light,
-            6.1.0/snapshot/light,
-            6.2/snapshot/light
+            5.4/snapshot/jar,
+            6.0/snapshot/jar,
+            6.1/snapshot/jar,
+            6.1.0/snapshot/jar,
+            6.2/snapshot/jar
           ]
         javaVersion: [ 11 ]
     env:
@@ -24,6 +25,13 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          path: _custom
+      - name: Checkout Lucee
+        uses: actions/checkout@v4
+        with:
+          repository: lucee/lucee
+          path: lucee
       - name: Set up JDK ${{matrix.javaVersion}}
         uses: actions/setup-java@v4
         with:
@@ -42,11 +50,13 @@ jobs:
           path: /home/runner/work/_actions/lucee/script-runner/main/lucee-download-cache
           key: lucee-downloads
 
-      - name: Check Zac's admin plugins compile as they often catch regressions
+      - name: Check Zac's admin plugins as they often catch regressions
         uses: lucee/script-runner@main
         with:
-          webroot: ${{ github.workspace }}/custom/bad-cfconfig
-          execute: /debug.cfm
+          webroot: ${{ github.workspace }}/lucee/test
+          execute: /bootstrap-tests.cfm
           luceeVersionQuery: ${{ matrix.luceeVersion }}
-          compile: true
           extensions: 91AF5D75-8CEF-4510-A170240C401F5FBA,A345C8CB-04CC-4D2B-93D50471D5105D83 # log viewer, performance analyzer
+        env:
+          testFilter: adminPages
+          LUCEE_BASE_CONFIG: ${{ github.workspace }}_custom/custom/bad-cfconfig/.CFConfig-good-debug.json
