@@ -14,6 +14,7 @@ jobs:
           [
             6.0/snapshot/jar,
             6.1/snapshot/jar,
+            6.1/snapshot/zero,
             6.1.0/snapshot/jar,
             6.2/snapshot/jar,
           ]
@@ -42,13 +43,13 @@ jobs:
           path: /home/runner/work/_actions/lucee/script-runner/main/lucee-download-cache
           key: lucee-downloads
 
-      - name: Save default .CFConfig.json FAT JAR
+      - name: Save default .CFConfig.json
         uses: lucee/script-runner@main
         with:
           webroot: ${{ github.workspace }}/custom/default-cfconfig
           execute: /saveDefault.cfm
           luceeVersionQuery: ${{ matrix.luceeVersion }} 
-      - name: Compare default .CFConfig.json against an empty .CFConfig.json i.e. {} FAT JAR
+      - name: Compare default .CFConfig.json against an empty .CFConfig.json i.e. {}
         uses: lucee/script-runner@main
         with:
           webroot: ${{ github.workspace }}/custom/default-cfconfig
@@ -56,22 +57,3 @@ jobs:
           luceeVersionQuery: ${{ matrix.luceeVersion }}
         env:
           LUCEE_BASE_CONFIG: ${{ github.workspace }}/custom/default-cfconfig/.CFConfig-empty.json
-
-      - name: Save default .CFConfig.json ZERO
-        if: always()
-        uses: lucee/script-runner@main
-        with:
-          webroot: ${{ github.workspace }}/custom/default-cfconfig
-          execute: /saveDefault.cfm
-          luceeVersionQuery: zero-${{ matrix.luceeVersion }} 
-  
-      - name: Compare default .CFConfig.json against an empty .CFConfig.json i.e. {} ZERO
-        if: always()
-        uses: lucee/script-runner@main
-        with:
-          webroot: ${{ github.workspace }}/custom/default-cfconfig
-          execute: /compareDefault.cfm
-          luceeVersionQuery: zero-${{ matrix.luceeVersion }}
-        env:
-          LUCEE_BASE_CONFIG: ${{ github.workspace }}/custom/default-cfconfig/.CFConfig-empty.json
-  
