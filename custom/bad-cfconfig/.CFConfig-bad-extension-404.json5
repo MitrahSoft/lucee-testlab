@@ -265,9 +265,9 @@
     "salt": "BC6F6636-DBE0-42CF-AFB9548BA094304C",
     "extensions": [
         {
-            "id": "17AB52DE-B300-A94B-E058BD978511E39E",
-            "name": "S3 Resource Extension",
-            "version": "0.0.1.25" // doesn't exist
+            "id": "D46B46A9-A0E3-44E1-D972A04AC3A8DC10",
+            "name": "Chart Extension",
+            "version": "2.0.404.404"  // obviously doesn't exist
         },
         {
             "id": "B737ABC4-D43F-4D91-8E8E973E37C40D1B",
