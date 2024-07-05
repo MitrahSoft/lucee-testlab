@@ -13,9 +13,13 @@ jobs:
         luceeVersion:
           [
             6.0/snapshot/jar,
+            6.0/snapshot/light,
+            6.0/snapshot/zero,
             6.1/snapshot/jar,
+            6.1/snapshot/light,
             6.1/snapshot/zero,
             6.1.0/snapshot/jar,
+            6.1.0/snapshot/light,
             6.1.0/snapshot/zero,
             6.2/snapshot/jar
           ]
