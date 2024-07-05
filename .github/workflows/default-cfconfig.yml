@@ -29,12 +29,14 @@ jobs:
         with:
           java-version: ${{matrix.javaVersion}}
           distribution: "temurin"
+
       - name: Cache Maven packages
         uses: actions/cache@v4
         with:
           path: ~/.m2
           key: maven-cache
       - name: Cache Lucee files
+        if: always()
         uses: actions/cache@v4
         with:
           path: /home/runner/work/_actions/lucee/script-runner/main/lucee-download-cache
@@ -56,6 +58,7 @@ jobs:
           LUCEE_BASE_CONFIG: ${{ github.workspace }}/custom/default-cfconfig/.CFConfig-empty.json
 
       - name: Save default .CFConfig.json ZERO
+        if: always()
         uses: lucee/script-runner@main
         with:
           webroot: ${{ github.workspace }}/custom/default-cfconfig
@@ -63,6 +66,7 @@ jobs:
           luceeVersionQuery: zero-${{ matrix.luceeVersion }} 
   
       - name: Compare default .CFConfig.json against an empty .CFConfig.json i.e. {} ZERO
+        if: always()
         uses: lucee/script-runner@main
         with:
           webroot: ${{ github.workspace }}/custom/default-cfconfig
