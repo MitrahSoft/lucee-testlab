@@ -12,6 +12,7 @@ jobs:
       matrix:
         luceeVersion:
           [
+            5.4/snapshot/jar,
             6.0/snapshot/jar,
             6.1/snapshot/jar,
             6.1.0/snapshot/jar,
