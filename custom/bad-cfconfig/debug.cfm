@@ -45,7 +45,7 @@
 		item="dir" {
 		systemoutput("#dir#, #expandPath(dir)#", true);
 	}
-
+	/*
 	systemoutput("", true);
 	systemoutput("--------- context cfcs -------", true);
 
@@ -53,10 +53,11 @@
 	for (c in cfcs){
 		systemoutput(c, true);
 	}
+	*/
 
 	systemoutput("", true);
 	loop list="out.log,err.log,application.log,deploy.log,exception.log" item="logFile"{
-		log = expandPath( '{lucee-config}/logs/#logFile#' );
+		log = expandPath( '{lucee-server}/logs/#logFile#' );
 		if ( fileExists( log ) ){
 			systemOutput( "", true );
 			systemOutput( "--------- #logFile#-----------", true );
