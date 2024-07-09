@@ -64,6 +64,16 @@ jobs:
             luceeVersionQuery: ${{ matrix.luceeVersion }}
             preCleanup: false
 
+      - name: Check bad .CFConfig with newer image extension LUCEE_BASE_CONFIG
+        uses: lucee/script-runner@main
+        if: always()
+        with:
+          webroot: ${{ github.workspace }}/custom/bad-cfconfig
+          execute: /debug.cfm
+          luceeVersionQuery: ${{ matrix.luceeVersion }}
+        env:
+          LUCEE_BASE_CONFIG: ${{ github.workspace }}/custom/bad-cfconfig/.CFConfig-newer-extension.json5
+
       - name: Check bad .CFConfig with unknown extension version LUCEE_BASE_CONFIG
         uses: lucee/script-runner@main
         if: always()
