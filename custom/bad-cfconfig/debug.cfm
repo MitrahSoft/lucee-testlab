@@ -69,7 +69,7 @@
 	systemoutput("--------- Installed Extensions -------", true);
 	q_ext = extensionList();
 	loop query="q_ext"{
-		systemoutput("#q_ext.name#, #q_ext.version#", true);
+		systemoutput("#q_ext.name#, #q_ext.version#, #chr(9)# #q_ext.id#", true);
 	}
 
 	function _logger( string message="", boolean throw=false ){
@@ -123,6 +123,8 @@
 			ext [ e.id ] = e;
 		}
 
+		systemOutput( exts, true );
+		
 		loop list="#check_extensions#" index="ext" {
 			if ( left( ext, 1 ) == "-" ) {
 				// check extension isn't installed
