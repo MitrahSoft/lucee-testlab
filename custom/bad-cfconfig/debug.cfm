@@ -72,12 +72,30 @@
 		}
 	}
 
+	function _logger( message, throw ){
+		systemOutput( message, true );
+		if ( FileExists( server.system.environment.GITHUB_STEP_SUMMARY ) ){
+			fileWrite( server.system.environment.GITHUB_STEP_SUMMARY, 
+				"#### #lucee.server.version# ", true );
+			fileAppend( server.system.environment.toJson(), true );
+		}
+
+		if ( arguments.throw ) {
+			fileAppend( server.system.environment.GITHUB_STEP_SUMMARY, "[!WARNING]" & chr(10), true );
+			fileAppend( server.system.environment.GITHUB_STEP_SUMMARY, message & chr(10), true );
+			throw arguments.message;
+		} else {
+			fileAppend( server.system.environment.GITHUB_STEP_SUMMARY, message & chr(10), true );
+		}
+
+	}
+
 	check_extensions        = server.system.environment.check_extensions ?: "";
 	check_extensions_since  = server.system.environment.check_extensions_since ?: "";
 	
 	// don't crash on older versions
 	if ( len( check_extensions_since ) ) {
-		systemOutput( "", true );
+		_logger( "");
 		luceeVersion = ListToArray( server.lucee.version, "." );
 		sinceVersion = ListToArray( check_extensions_since, "." );
 
@@ -89,16 +107,16 @@
 					throw "too old!"
 			}
 		} catch( e ) {
-			systemOutput( e.message, true );
-			systemOutput( "checking extensions since, Lucee [#server.lucee.version#] is too old for test [#check_extensions_since#]", true );
+			_logger( e.message );
+			_logger( "checking extensions since, Lucee [#server.lucee.version#] is too old for test [#check_extensions_since#]");
 		} 
 		
 	}
 
 
 	if ( len( check_extensions ) ) {
-		systemOutput( "", true );
-		systemOutput( "checking extensions [#check_extensions#]", true );
+		_logger( "");
+		_logger( "checking extensions [#check_extensions#]");
 
 		_exts = extensionList();
 		exts = {};
@@ -113,19 +131,19 @@
 				extId = listFirst( ext, ":" );
 				extVersion = listLast( ext, ":" );
 				if ( structKeyExists( exts, extId ) )
-					throw "ERROR: Extension [#exts[ extId ].name#:#exts[extID ].version#] is installed but shoudn't be";
+					_logger( "ERROR: Extension [#exts[ extId ].name#:#exts[extID ].version#] is installed but shoudn't be", true);
 				else 
-					systemOutput( "Good! Extension [#extId#] isn't installed", true );
+					_logger( "Good! Extension [#extId#] isn't installed");
 			} else {
 				// check extension is installed and correct version
 				extId = listFirst( ext, ":" );
 				extVersion = listLast( ext, ":" );
 				if ( ! structKeyExists(exts, extId ) ) {
-					throw "ERROR: Extension [#extId#:#extVersion#] should be installed";
+					_logger( "ERROR: Extension [#extId#:#extVersion#] should be installed", true);
 				} else if ( extVerion != exts[ extId ].version) {
-					throw "ERROR: Extension [#exts[ extId ].name#] should be [#extVersion#] but is [#exts[ extId ].version#]";
+					_logger( "ERROR: Extension [#exts[ extId ].name#] should be [#extVersion#] but is [#exts[ extId ].version#]", true);
 				} else {
-					systemOutput( "Good! Extension [#exts[ extId ].name#] version [#exts[ extId ].version#] is installed ", true );
+					_logger( "Good! Extension [#exts[ extId ].name#] version [#exts[ extId ].version#] is installed ");
 				}
 			}
 		}
@@ -133,7 +151,7 @@
 	
 	if ( len( structKeyExists( logs, "err.log" ) ) ){
 		if ( len( logs["err.log"] ) ) {
-			throw "err.log has errors";
+			_logger(logs["err.log"] , true);
 		}
 	}
 
