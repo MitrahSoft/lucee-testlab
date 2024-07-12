@@ -114,13 +114,13 @@
 
 
 	if ( len( check_extensions ) ) {
-		//_logger( " " );
-		_logger( "checking extensions [#check_extensions#]");
+		_logger( " " );
+		_logger( "Checking extensions [ #check_extensions# ]");
 
 		_exts = extensionList();
 		exts = {};
-		for ( e in _exts ){
-			ext [ e.id ] = e;
+		loop query=_exts {
+			exts [ _exts.id ] = e;
 		}
 
 		systemOutput( exts, true );
