@@ -48,6 +48,7 @@ jobs:
           webroot: ${{ github.workspace }}/custom/bad-cfconfig
           execute: /debug.cfm
           luceeVersionQuery: ${{ matrix.luceeVersion }}
+          compile: true
         env:
           LUCEE_BASE_CONFIG: ${{ github.workspace }}/custom/bad-cfconfig/.CFConfig-good.json5
           check_extensions: B737ABC4-D43F-4D91-8E8E973E37C40D1B:2.0.0.26

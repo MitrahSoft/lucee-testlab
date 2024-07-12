@@ -57,25 +57,29 @@
 	*/
 
 	systemoutput("", true);
+
+	var logs = {};
 	loop list="out.log,err.log,application.log,deploy.log,exception.log" item="logFile"{
 		log = expandPath( '{lucee-server}/logs/#logFile#' );
 		if ( fileExists( log ) ){
 			systemOutput( "", true );
 			systemOutput( "--------- #logFile#-----------", true );
-			systemOutput( fileRead( log ), true );
+			_log = fileRead( log );
+			logs [ _log ] = trim( log );
+			systemOutput( _log, true );
 		} else {
 			systemOutput( "--------- no #logFile# [#log#]", true );
 		}
 	}
 
-	param name="check_extensions" value="";
-	param name="check_extensions_since" value="";
+	check_extensions        = server.system.environment.check_extensions ?: "";
+	check_extensions_since  = server.system.environment.check_extensions_since ?: "";
 	
 	// don't crash on older versions
 	if ( len( check_extensions_since ) ) {
 		systemOutput( "", true );
-		luceeVersion = ListToArray(server.lucee.version,"." );
-		sinceVersion = ListToArray(check_extensions_since,"." );
+		luceeVersion = ListToArray( server.lucee.version, "." );
+		sinceVersion = ListToArray( check_extensions_since, "." );
 
 		try {
 			loop array=luceeVersion item="vv" index="i" {
@@ -127,5 +131,10 @@
 		}
 	}
 	
+	if ( len( structKeyExists( logs, "err.log" ) ) ){
+		if ( len( logs["err.log"] ) ) {
+			throw "err.log has errors";
+		}
+	}
 
 </cfscript>
