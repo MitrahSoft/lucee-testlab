@@ -33,13 +33,6 @@
 	}
 
 	systemoutput("", true);
-	systemoutput("--------- Installed Extensions -------", true);
-	q_ext = extensionList();
-	loop query="q_ext"{
-		systemoutput("#q_ext.name#, #q_ext.version#", true);
-	}
-
-	systemoutput("", true);
 	systemoutput("--------- Directories -------", true);
 	q_ext = extensionList();
 	loop list="{lucee-web},{lucee-server},{lucee-config},{temp-directory},{home-directory},{web-root-directory},{system-directory},{web-context-hash},{web-context-label}"
@@ -72,17 +65,23 @@
 		}
 	}
 
+	systemoutput("", true);
+	systemoutput("--------- Installed Extensions -------", true);
+	q_ext = extensionList();
+	loop query="q_ext"{
+		systemoutput("#q_ext.name#, #q_ext.version#", true);
+	}
+
 	function _logger( string message="", boolean throw=false ){
 		systemOutput( arguments.message, true );
 		if ( !FileExists( server.system.environment.GITHUB_STEP_SUMMARY ) ){
-			fileWrite( server.system.environment.GITHUB_STEP_SUMMARY,
-				"#### #server.lucee.version# ", true );
+			fileWrite( server.system.environment.GITHUB_STEP_SUMMARY, "#### #server.lucee.version# ");
 			fileAppend( server.system.environment.GITHUB_STEP_SUMMARY, server.system.environment.toJson());
 		}
 
 		if ( arguments.throw ) {
-			fileAppend( server.system.environment.GITHUB_STEP_SUMMARY, "[!WARNING]" & chr(10) );
-			fileAppend( server.system.environment.GITHUB_STEP_SUMMARY, " #arguments.message##chr(10)#");
+			fileAppend( server.system.environment.GITHUB_STEP_SUMMARY, "> #chr(10)#[!WARNING]" & chr(10) );
+			fileAppend( server.system.environment.GITHUB_STEP_SUMMARY, "> #arguments.message##chr(10)#");
 			throw arguments.message;
 		} else {
 			fileAppend( server.system.environment.GITHUB_STEP_SUMMARY, " #arguments.message##chr(10)#");
