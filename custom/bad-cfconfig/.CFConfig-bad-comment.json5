@@ -283,12 +283,12 @@
             "id": "8D7FB0DF-08BB-1589-FE3975678F07DB17",
             "name": "Compress Tags",
             "version": "1.0.0.15"
-        } /*
+        },
         {
-            "id": "CED6227E-0F49-6367-A68D21AACA6B07E8",
-            "version": "1.0.0.5",
-            "name": "Lucee Administrator"
-        } */
+            "id": "D46B46A9-A0E3-44E1-D972A04AC3A8DC10",
+            "name": "Chart Extension",
+            "version": "1.0.19.25"
+        }
     ],
     "rest": {
         "mapping": [

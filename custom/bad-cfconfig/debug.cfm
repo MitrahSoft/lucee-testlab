@@ -1,4 +1,5 @@
 <cfscript>
+	
 	systemOutput("Hello World, Lucee Script Engine Runner, Debugger", true);
 	systemOutput("#getCurrentTemplatePath()#", true);
 	systemoutput("", true);
@@ -64,6 +65,37 @@
 			systemOutput( fileRead( log ), true );
 		} else {
 			systemOutput( "--------- no #logFile# [#log#]", true );
+		}
+	}
+
+	param name="check_extensions" value="";
+
+	if ( len( check_extensions ) ) {
+
+		_exts = extensionList();
+		exts = {};
+		for ( e in _exts ){
+			ext [ e.id ] = _exts.e;
+		}
+
+		loop list="#check_extensions#" index="ext" {
+			if ( left( ext, 1 ) == "-" ) {
+				// check extension isn't installed
+				ext = mid( ext, 2 );
+				extId = listFirst( ext, ":" );
+				extVersion = listLast( ext, ":" );
+				if ( structKeyExists( exts, extId ) )
+					throw "Extension [#exts[ extId ].name#:#exts[extID ].version#] is installed but shoudn't be";
+			} else {
+				// check extension is installed and correct version
+				extId = listFirst( ext, ":" );
+				extVersion = listLast( ext, ":" );
+				if ( ! structKeyExists(exts, extId ) ) {
+					throw "Extension [#exts[ extId ].name#:#exts[ extId ].version#] should be installed";
+				} else if ( extVerion != exts[ extId ].version) {
+					throw "Extension [#exts[ extId ].name#] should be [#extVersion#] but is [#exts[ extId ].version#]";
+				}
+			}
 		}
 	}
 	

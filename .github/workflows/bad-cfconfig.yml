@@ -50,6 +50,7 @@ jobs:
           luceeVersionQuery: ${{ matrix.luceeVersion }}
         env:
           LUCEE_BASE_CONFIG: ${{ github.workspace }}/custom/bad-cfconfig/.CFConfig-good.json5
+          check_extensions: B737ABC4-D43F-4D91-8E8E973E37C40D1B:2.0.0.26
 
       - name: Copy .CFConfig-good.json5 into context
         if: always()
@@ -64,6 +65,8 @@ jobs:
             execute: /debug.cfm
             luceeVersionQuery: ${{ matrix.luceeVersion }}
             preCleanup: false
+        env:
+          check_extensions: B737ABC4-D43F-4D91-8E8E973E37C40D1B:2.0.0.26
 
       - name: Check good .CFConfig with newer image extension LUCEE_BASE_CONFIG
         uses: lucee/script-runner@main
@@ -74,6 +77,7 @@ jobs:
           luceeVersionQuery: ${{ matrix.luceeVersion }}
         env:
           LUCEE_BASE_CONFIG: ${{ github.workspace }}/custom/bad-cfconfig/.CFConfig-newer-extension.json5
+          check_extensions: B737ABC4-D43F-4D91-8E8E973E37C40D1B:2.0.0.28-SNAPSHOT
 
       - name: Copy .CFConfig-newer-extension.json5 into context
         if: always()
@@ -88,6 +92,25 @@ jobs:
           execute: /debug.cfm
           luceeVersionQuery: ${{ matrix.luceeVersion }}
           preCleanup: false
+        env:
+          check_extensions: B737ABC4-D43F-4D91-8E8E973E37C40D1B:2.0.0.28-SNAPSHOT
+
+
+      - name: Copy .CFConfig-newer-extension.json5 into /deploy
+        if: always()
+        run: |
+          mkdir -p /home/runner/work/_actions/lucee/script-runner/main/temp/lucee/lucee-server/context/deploy/
+          cp -a ${{ github.workspace }}/custom/bad-cfconfig/.CFConfig-newer-extension.json5 /home/runner/work/_actions/lucee/script-runner/main/temp/lucee/lucee-server/deploy/.CFConfig.json
+      - name: Check good .CFConfig with newer image extension ( via /deploy )
+        uses: lucee/script-runner@main
+        if: always()
+        with:
+          webroot: ${{ github.workspace }}/custom/bad-cfconfig
+          execute: /debug.cfm
+          luceeVersionQuery: ${{ matrix.luceeVersion }}
+          preCleanup: false
+        env:
+          check_extensions: B737ABC4-D43F-4D91-8E8E973E37C40D1B:2.0.0.28-SNAPSHOT
 
       - name: Check bad .CFConfig with unknown extension version LUCEE_BASE_CONFIG
         uses: lucee/script-runner@main
@@ -108,6 +131,7 @@ jobs:
           luceeVersionQuery: ${{ matrix.luceeVersion }}
         env:
           LUCEE_BASE_CONFIG: ${{ github.workspace }}/custom/bad-cfconfig/.CFConfig-bad-comment.json5
+          check_extensions: -D46B46A9-A0E3-44E1-D972A04AC3A8DC10:1.0.19.25
 
       - name: Check bad .CFConfig missing file LUCEE_BASE_CONFIG
         uses: lucee/script-runner@main
@@ -132,6 +156,8 @@ jobs:
             execute: /debug.cfm
             luceeVersionQuery: ${{ matrix.luceeVersion }}
             preCleanup: false
+        env:
+          check_extensions: -17AB52DE-B300-A94B-E058BD978511E39E:0.0.404.404
 
       - name: Copy .CFConfig-bad-extension.json5 into context (chart ext)
         if: always()
@@ -146,3 +172,6 @@ jobs:
             execute: /debug.cfm
             luceeVersionQuery: ${{ matrix.luceeVersion }}
             preCleanup: false
+        env:
+          check_extensions: -D46B46A9-A0E3-44E1-D972A04AC3A8DC10:0.0.404.404
+  
