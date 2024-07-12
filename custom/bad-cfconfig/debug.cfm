@@ -72,6 +72,8 @@
 		systemoutput("#q_ext.name#, #q_ext.version#, #chr(9)# #q_ext.id#", true);
 	}
 
+	systemOutput( server.system.environment, true );
+
 	function _logger( string message="", boolean throw=false ){
 		systemOutput( arguments.message, true );
 		if ( !FileExists( server.system.environment.GITHUB_STEP_SUMMARY ) ){
@@ -122,8 +124,6 @@
 		loop query=_exts {
 			exts [ _exts.id ] = QueryRowData( _exts, _exts.currentrow ) ;
 		}
-
-		systemOutput( exts, true );
 		
 		loop list="#check_extensions#" index="ext" {
 			if ( left( ext, 1 ) == "-" ) {
