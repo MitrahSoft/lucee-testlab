@@ -82,10 +82,10 @@
 
 		if ( arguments.throw ) {
 			fileAppend( server.system.environment.GITHUB_STEP_SUMMARY, "[!WARNING]" & chr(10), true );
-			fileAppend( server.system.environment.GITHUB_STEP_SUMMARY, message & chr(10), true );
+			fileAppend( server.system.environment.GITHUB_STEP_SUMMARY, " #message##chr(10)#", true );
 			throw arguments.message;
 		} else {
-			fileAppend( server.system.environment.GITHUB_STEP_SUMMARY, message & chr(10), true );
+			fileAppend( server.system.environment.GITHUB_STEP_SUMMARY, " #message##chr(10)#", true );
 		}
 
 	}
