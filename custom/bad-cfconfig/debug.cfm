@@ -108,7 +108,8 @@
 			}
 		} catch( e ) {
 			_logger( e.message );
-			_logger( "checking extensions since, Lucee [#server.lucee.version#] is too old for test [#check_extensions_since#]");
+			_logger( "skipping checking extensions, as Lucee [#server.lucee.version#] is too old for this test [#check_extensions_since#]");
+			check_extensions = "";
 		} 
 		
 	}
