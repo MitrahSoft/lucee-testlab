@@ -149,10 +149,8 @@
 		}
 	}
 	
-	if ( len( structKeyExists( logs, "err.log" ) ) ){
-		if ( len( logs["err.log"] ) ) {
-			_logger(logs["err.log"] , true);
-		}
+	if ( structKeyExists( logs, "err.log" ) && len( logs["err.log"] ?: "" ) ) {
+		_logger( logs[ "err.log" ] , true);
 	}
 
 </cfscript>
