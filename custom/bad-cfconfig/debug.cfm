@@ -72,8 +72,8 @@
 		}
 	}
 
-	function _logger( string message, boolean throw=false ){
-		systemOutput( message, true );
+	function _logger( string message="", boolean throw=false ){
+		systemOutput( arguments.message, true );
 		if ( !FileExists( server.system.environment.GITHUB_STEP_SUMMARY ) ){
 			fileWrite( server.system.environment.GITHUB_STEP_SUMMARY,
 				"#### #server.lucee.version# ", true );
@@ -82,10 +82,10 @@
 
 		if ( arguments.throw ) {
 			fileAppend( server.system.environment.GITHUB_STEP_SUMMARY, "[!WARNING]" & chr(10), true );
-			fileAppend( server.system.environment.GITHUB_STEP_SUMMARY, " #message##chr(10)#", true );
+			fileAppend( server.system.environment.GITHUB_STEP_SUMMARY, " #arguments.message##chr(10)#", true );
 			throw arguments.message;
 		} else {
-			fileAppend( server.system.environment.GITHUB_STEP_SUMMARY, " #message##chr(10)#", true );
+			fileAppend( server.system.environment.GITHUB_STEP_SUMMARY, " #arguments.message##chr(10)#", true );
 		}
 
 	}
@@ -95,7 +95,7 @@
 	
 	// don't crash on older versions
 	if ( len( check_extensions_since ) ) {
-		_logger( "");
+		_logger( "" );
 		luceeVersion = ListToArray( server.lucee.version, "." );
 		sinceVersion = ListToArray( check_extensions_since, "." );
 
@@ -115,7 +115,7 @@
 
 
 	if ( len( check_extensions ) ) {
-		_logger( " " );
+		//_logger( " " );
 		_logger( "checking extensions [#check_extensions#]");
 
 		_exts = extensionList();
