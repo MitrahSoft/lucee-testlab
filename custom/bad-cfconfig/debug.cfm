@@ -103,7 +103,7 @@
 		_exts = extensionList();
 		exts = {};
 		for ( e in _exts ){
-			ext [ e.id ] = _exts.e;
+			ext [ e.id ] = e;
 		}
 
 		loop list="#check_extensions#" index="ext" {
