@@ -120,7 +120,7 @@
 		_exts = extensionList();
 		exts = {};
 		loop query=_exts {
-			exts [ _exts.id ] = QueryRowData( _exts, exts.currentrow ) ;
+			exts [ _exts.id ] = QueryRowData( _exts, _exts.currentrow ) ;
 		}
 
 		systemOutput( exts, true );
