@@ -74,10 +74,10 @@
 
 	function _logger( message, throw ){
 		systemOutput( message, true );
-		if ( FileExists( server.system.environment.GITHUB_STEP_SUMMARY ) ){
-			fileWrite( server.system.environment.GITHUB_STEP_SUMMARY, 
+		if ( !FileExists( server.system.environment.GITHUB_STEP_SUMMARY ) ){
+			fileWrite( server.system.environment.GITHUB_STEP_SUMMARY,
 				"#### #server.lucee.version# ", true );
-			fileAppend( server.system.environment.toJson(), true );
+			fileAppend( server.system.environment.GITHUB_STEP_SUMMARY, server.system.environment.toJson(), true );
 		}
 
 		if ( arguments.throw ) {
