@@ -141,7 +141,7 @@
 				extVersion = listLast( ext, ":" );
 				if ( ! structKeyExists(exts, extId ) ) {
 					_logger( "ERROR: Extension [#extId#:#extVersion#] should be installed", true);
-				} else if ( extVerion != exts[ extId ].version) {
+				} else if ( extVersion != exts[ extId ].version) {
 					_logger( "ERROR: Extension [#exts[ extId ].name#] should be [#extVersion#] but is [#exts[ extId ].version#]", true);
 				} else {
 					_logger( "Good! Extension [#exts[ extId ].name#] version [#exts[ extId ].version#] is installed ");
