@@ -80,7 +80,7 @@
 		}
 
 		if ( arguments.throw ) {
-			fileAppend( server.system.environment.GITHUB_STEP_SUMMARY, "> #chr(10)#[!WARNING]" & chr(10) );
+			fileAppend( server.system.environment.GITHUB_STEP_SUMMARY, "> [!WARNING]" & chr(10) );
 			fileAppend( server.system.environment.GITHUB_STEP_SUMMARY, "> #arguments.message##chr(10)#");
 			throw arguments.message;
 		} else {
