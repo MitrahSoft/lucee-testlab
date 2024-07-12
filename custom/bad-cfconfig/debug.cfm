@@ -76,7 +76,7 @@
 		systemOutput( message, true );
 		if ( FileExists( server.system.environment.GITHUB_STEP_SUMMARY ) ){
 			fileWrite( server.system.environment.GITHUB_STEP_SUMMARY, 
-				"#### #lucee.server.version# ", true );
+				"#### #server.lucee.version# ", true );
 			fileAppend( server.system.environment.toJson(), true );
 		}
 
