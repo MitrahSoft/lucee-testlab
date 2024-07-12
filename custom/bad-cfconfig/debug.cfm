@@ -69,6 +69,28 @@
 	}
 
 	param name="check_extensions" value="";
+	param name="check_extensions_since" value="";
+	
+	// don't crash on older versions
+	if ( len( check_extensions_since ) ) {
+		systemOutput( "", true );
+		luceeVersion = ListToArray(server.lucee.version,"." );
+		sinceVersion = ListToArray(check_extensions_since,"." );
+
+		try {
+			loop array=luceeVersion item="vv" index="i" {
+				if ( i gt arrayLen( sinceVersion ) )
+					break; // all good
+				if ( vv lt luceeVersion[ i ] )
+					throw "too old!"
+			}
+		} catch( e ) {
+			systemOutput( e.message, true );
+			systemOutput( "checking extensions since, Lucee [#server.lucee.version#] is too old for test [#check_extensions_since#]", true );
+		} 
+		
+	}
+
 
 	if ( len( check_extensions ) ) {
 		systemOutput( "", true );

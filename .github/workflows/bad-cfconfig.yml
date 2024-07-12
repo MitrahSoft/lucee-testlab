@@ -111,6 +111,7 @@ jobs:
           preCleanup: false
         env:
           check_extensions: B737ABC4-D43F-4D91-8E8E973E37C40D1B:2.0.0.28-SNAPSHOT
+          check_extensions_since: 6.1.1
 
       - name: Check bad .CFConfig with unknown extension version LUCEE_BASE_CONFIG
         uses: lucee/script-runner@main
