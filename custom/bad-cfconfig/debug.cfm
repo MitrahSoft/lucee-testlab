@@ -95,6 +95,7 @@
 	// don't crash on older versions
 	if ( len( check_extensions_since ) ) {
 		_logger( "" );
+		_logger( "check_extensions_since: #check_extensions_since#" )
 		luceeVersion = ListToArray( server.lucee.version, "." );
 		sinceVersion = ListToArray( check_extensions_since, "." );
 
@@ -102,7 +103,7 @@
 			loop array=luceeVersion item="vv" index="i" {
 				if ( i gt arrayLen( sinceVersion ) )
 					break; // all good
-				if ( vv lt luceeVersion[ i ] )
+				if ( vv lt sinceVersion[ i ] )
 					throw "too old!"
 			}
 		} catch( e ) {
