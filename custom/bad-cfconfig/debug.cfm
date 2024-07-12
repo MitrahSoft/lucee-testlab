@@ -72,8 +72,6 @@
 		systemoutput("#q_ext.name#, #q_ext.version#, #chr(9)# #q_ext.id#", true);
 	}
 
-	systemOutput( server.system.environment, true );
-
 	function _logger( string message="", boolean throw=false ){
 		systemOutput( arguments.message, true );
 		if ( !FileExists( server.system.environment.GITHUB_STEP_SUMMARY ) ){
