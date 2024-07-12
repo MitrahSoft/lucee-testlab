@@ -71,6 +71,8 @@
 	param name="check_extensions" value="";
 
 	if ( len( check_extensions ) ) {
+		systemOutput( "", true );
+		systemOutput( "checking extensions [#check_extensions#]", true );
 
 		_exts = extensionList();
 		exts = {};
@@ -85,15 +87,19 @@
 				extId = listFirst( ext, ":" );
 				extVersion = listLast( ext, ":" );
 				if ( structKeyExists( exts, extId ) )
-					throw "Extension [#exts[ extId ].name#:#exts[extID ].version#] is installed but shoudn't be";
+					throw "ERROR: Extension [#exts[ extId ].name#:#exts[extID ].version#] is installed but shoudn't be";
+				else 
+					systemOutput( "Good! Extension [#extId#] isn't installed", true );
 			} else {
 				// check extension is installed and correct version
 				extId = listFirst( ext, ":" );
 				extVersion = listLast( ext, ":" );
 				if ( ! structKeyExists(exts, extId ) ) {
-					throw "Extension [#exts[ extId ].name#:#exts[ extId ].version#] should be installed";
+					throw "ERROR: Extension [#exts[ extId ].name#:#exts[ extId ].version#] should be installed";
 				} else if ( extVerion != exts[ extId ].version) {
-					throw "Extension [#exts[ extId ].name#] should be [#extVersion#] but is [#exts[ extId ].version#]";
+					throw "ERROR: Extension [#exts[ extId ].name#] should be [#extVersion#] but is [#exts[ extId ].version#]";
+				} else {
+					systemOutput( "Good! Extension [#exts[ extId ].name#] version [#exts[ extId ].version#] is installed ", true );
 				}
 			}
 		}
