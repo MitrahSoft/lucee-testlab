@@ -77,15 +77,15 @@
 		if ( !FileExists( server.system.environment.GITHUB_STEP_SUMMARY ) ){
 			fileWrite( server.system.environment.GITHUB_STEP_SUMMARY,
 				"#### #server.lucee.version# ", true );
-			fileAppend( server.system.environment.GITHUB_STEP_SUMMARY, server.system.environment.toJson(), true );
+			fileAppend( server.system.environment.GITHUB_STEP_SUMMARY, server.system.environment.toJson());
 		}
 
 		if ( arguments.throw ) {
-			fileAppend( server.system.environment.GITHUB_STEP_SUMMARY, "[!WARNING]" & chr(10), true );
-			fileAppend( server.system.environment.GITHUB_STEP_SUMMARY, " #arguments.message##chr(10)#", true );
+			fileAppend( server.system.environment.GITHUB_STEP_SUMMARY, "[!WARNING]" & chr(10) );
+			fileAppend( server.system.environment.GITHUB_STEP_SUMMARY, " #arguments.message##chr(10)#");
 			throw arguments.message;
 		} else {
-			fileAppend( server.system.environment.GITHUB_STEP_SUMMARY, " #arguments.message##chr(10)#", true );
+			fileAppend( server.system.environment.GITHUB_STEP_SUMMARY, " #arguments.message##chr(10)#");
 		}
 
 	}
