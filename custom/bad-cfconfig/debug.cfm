@@ -72,7 +72,7 @@
 		}
 	}
 
-	function _logger( message, throw ){
+	function _logger( string message, boolean throw=false ){
 		systemOutput( message, true );
 		if ( !FileExists( server.system.environment.GITHUB_STEP_SUMMARY ) ){
 			fileWrite( server.system.environment.GITHUB_STEP_SUMMARY,
