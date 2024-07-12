@@ -58,14 +58,14 @@
 
 	systemoutput("", true);
 
-	var logs = {};
+	logs = {};
 	loop list="out.log,err.log,application.log,deploy.log,exception.log" item="logFile"{
 		log = expandPath( '{lucee-server}/logs/#logFile#' );
 		if ( fileExists( log ) ){
 			systemOutput( "", true );
 			systemOutput( "--------- #logFile#-----------", true );
 			_log = fileRead( log );
-			logs [ _log ] = trim( log );
+			logs [ _log ] = trim( _log );
 			systemOutput( _log, true );
 		} else {
 			systemOutput( "--------- no #logFile# [#log#]", true );
