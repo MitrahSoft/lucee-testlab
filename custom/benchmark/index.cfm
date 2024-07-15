@@ -55,7 +55,7 @@
 		var used = { name: arguments.name };
 		querySort(qry,"type,name");
 		loop query=qry {
-			if ( len( arguments.filter ) and argument.filter neq qry.type )
+			if ( len( arguments.filter ) and arguments.filter neq qry.type )
 				continue;
 			if (qry.max == -1)
 				var perc = 0;
