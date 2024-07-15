@@ -8,7 +8,7 @@ jobs:
   tests:
     runs-on: ubuntu-latest
     strategy:
-      fail-fast: false
+      fail-fast: true
       max-parallel: 1
       matrix:        
         luceeVersion: [ 5.4/snapshot/light, 6.0/snapshot/light, 6.1/snapshot/light, 6.1.0/snapshot/light, 6.2/snapshot/light ]

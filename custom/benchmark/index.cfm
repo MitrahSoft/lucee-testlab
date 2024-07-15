@@ -1,10 +1,11 @@
 <cfscript>
 	runs = server.system.environment.BENCHMARK_CYCLES ?: 400000;
 	arr = [];
-	systemOutput("Running hello world [#runs#] times", true);
+	
 	ArraySet( arr, 1, runs, 0 );
-
+	systemOutput( "Sleeping 5s first", true );
 	sleep( 5000 ); // time to settle
+	systemOutput( "Running hello world [#runs#] times", true );
 	_memBefore = reportMem( "", {}, "before" );
 	s = getTickCount();
 	ArrayEach( arr, function( item ){
@@ -66,5 +67,6 @@
 	}
 
 	_logger( "Running hello world [#numberFormat( runs )#] times, took #numberFormat( time )# ms, or #numberFormat(runs/(time/1000))# per second" );
-	_logger( _memStat );
+	for ( r in _memStat.report )
+		_logger( r );
 </cfscript>
