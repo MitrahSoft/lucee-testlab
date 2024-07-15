@@ -96,6 +96,7 @@
 	}
 	dir = getDirectoryFromPath( getCurrentTemplatePath() ) & "artifacts";
 	directoryCreate( dir );
+	systemOutput( dir, true );
 
 	fileWrite( dir & server.lucee.version & server.java.version & "-results.json", results.toJson() );
 	

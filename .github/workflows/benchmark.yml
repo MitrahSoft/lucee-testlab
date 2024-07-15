@@ -76,10 +76,10 @@ jobs:
             key: lucee-downloads
       - uses: actions/download-artifact@v4
         with:
-            path: artifacts
+            path: ${{ github.workspace }}/custom/benchmark/artifacts
             merge-multiple: true
       - name: Display structure of downloaded files
-        run: ls -R artifacts
+        run: ls -R ${{ github.workspace }}/custom/benchmark/artifacts
       - name: Generate Report
         uses: lucee/script-runner@main
         with:
