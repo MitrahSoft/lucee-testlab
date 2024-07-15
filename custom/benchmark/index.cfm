@@ -7,7 +7,7 @@
 
     ArrayEach( arr, function( item ){
         _internalRequest(
-            url: "/tests/hello-world.cfm"
+            template: "/tests/hello-world.cfm"
         );
     }, true );
 
