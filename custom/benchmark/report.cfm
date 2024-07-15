@@ -38,11 +38,11 @@
 
 	}
 
-    systemOutput( serializeJSON( q, true) );
+   // systemOutput( serializeJSON( q, true) );
 
     hdr = [];
     div = [];
-    loop list=q.columnlist item=col {
+    loop list=q.columnlist item="col" {
         arrayAppend( hrd, col );
         arrayAppend( div, "---" );
     }
@@ -52,7 +52,7 @@
 
     row = [];
     loop query=q {
-        loop list=q.columnlist item=col {
+        loop list=q.columnlist item="col" {
             arrayAppend( row, q [ col ] );
         }
         _logger( "|" & arrayToList( row, "|" ) & "|" );
