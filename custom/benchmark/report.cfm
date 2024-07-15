@@ -2,7 +2,7 @@
 	dir = getDirectoryFromPath( getCurrentTemplatePath() ) & "artifacts";
 	files = directoryList( dir );
 
-	q = queryNew( "version,java,type,time,runs,inspect,memory" );
+	q = queryNew( "version,java,type,time,runs,inspect,memory,throughput" );
 	for ( f in files ){
 		systemOutput ( f, true );
 		json = deserializeJson( fileRead( f ) );
@@ -16,6 +16,7 @@
 
 		for ( r in json.data ){
 			StructAppend( r, json.run );
+			r.throughput = int( runs / ( time / 1000 ) );
 			row = queryAddRow( q );
 			QuerySetRow( q, row, r );
 		}
@@ -51,78 +52,127 @@
 		from   q
 	</cfquery>
 
-	<cfquery name="time_range" dbtype="query">
-		select min(time) as min, max(time) as max
+	<cfquery name="throughput_range" dbtype="query">
+		select min(throughput) as min, max(throughput) as max
 		from   q
 	</cfquery>
+
+	<cfquery name="q_json_never" dbtype="query">
+		select	version,java,time,memory,throughput
+		from	q
+		where	type = 'json'
+				and inspect='never'
+		order	by throughput desc
+	</cfquery>
+
+	<cfquery name="q_json_once" dbtype="query">
+		select	version,java,time,memory,throughput
+		from	q
+		where	type = 'json' 
+				and inspect='once'
+		order	by throughput desc
+	</cfquery>
+
+	<cfquery name="q_hello_never" dbtype="query">
+		select	version,java,time,memory,throughput
+		from	q
+		where	type = 'hello-world' 
+				and inspect='never'
+		order	by throughput desc 
+	</cfquery>
+
+	<cfquery name="q_hello_once" dbtype="query">
+		select	version,java,time,memory,throughput
+		from	q
+		where	type = 'hello-world' 
+				and inspect='once'
+		order	by throughput desc 
+	</cfquery>
+
 	```
 
    // systemOutput( serializeJSON( q, true) );
 
-	hdr = [];
-	div = [];
-	loop list=q.columnlist item="col" {
-		arrayAppend( hdr, col );
-		arrayAppend( div, "---" );
-	}
-	_logger( "" );
-	_logger( "|" & arrayToList( hdr, "|" ) & "|" );
-	_logger( "|" & arrayToList( div, "|" ) & "|" );
-
-	row = [];
-	loop query=q {
-		loop list=q.columnlist item="col" {
-			arrayAppend( row, q [ col ] );
+   function dumpTable( q, title ) localmode=true {
+		var hdr = [];
+		var div = [];
+		loop list=q.columnlist item="local.col" {
+			arrayAppend( hdr, col );
+			if ( col eq "memory" or col eq "time" or col eq "throughput" )
+				arrayAppend( div, "---:" );
+			else
+				arrayAppend( div, "---" );
 		}
-		_logger( "|" & arrayToList( row, "|" ) & "|" );
-		row = [];
+		_logger( "" );
+		_logger( "#### #arguments.title#" );
+		_logger( "" );
+		_logger( "|" & arrayToList( hdr, "|" ) & "|" );
+		_logger( "|" & arrayToList( div, "|" ) & "|" );
+
+		var row = [];
+		loop query=q {
+			loop list=q.columnlist item="local.col" {
+				if ( col eq "memory" or col eq "time" or col eq "throughput" )
+					arrayAppend( row, numberFormat( q [ col ] ) );
+				else 
+					arrayAppend( row, q [ col ] );
+			}
+			_logger( "|" & arrayToList( row, "|" ) & "|" );
+			row = [];
+		}
+
+		_logger( "" );
 	}
 
-	_logger( "" );
+	_logger( "## Summary Report" );
+	dumpTable( q_hello_once, "Hello World - Inspect Once" );
+	dumpTable( q_hello_never, "Hello World - Inspect Never" );
+	dumpTable( q_json_once, "JSON - Inspect Once" );
+	dumpTable( q_json_never, "JSON - Inspect Never" );
+		
 </cfscript>
+<!--- sigh, github doesn't suport data image urls --->
 
-<cfloop list="none,once" item="_inspect">
+<cfloop list="never,once" item="_inspect">
 	<cfchart chartheight="500" chartwidth="1024" 
 			title="#UCase( _inspect )# Benchmarks - #q.runs# runs" format="png" name="graph"
-			scaleFrom="#time_range.min#" scaleTo="#time_range.max#"> 
+			scaleFrom="#throughput_range.min#" scaleTo="#throughput_range.max#"> 
 		<cfchartseries type="line" seriesLabel="Hello World"> 
 			<cfloop query="q">
 				<cfif q.type eq "hello-world" and q.inspect eq _inspect>
-					<cfchartdata item="#q.version# #q.java#" value="#q.time#"> 
+					<cfchartdata item="#q.version# #q.java#" value="#q.throughput#"> 
 				</cfif>
 			</cfloop> 
 		</cfchartseries>
 		<cfchartseries type="line" seriesLabel="Json"> 
 			<cfloop query="q">
 				<cfif q.type eq "json" and q.inspect eq _inspect>>
-					<cfchartdata item="#q.version# #q.java#" value="#q.time#"> 
+					<cfchartdata item="#q.version# #q.java#" value="#q.throughput#"> 
 				</cfif>
 			</cfloop> 
 		</cfchartseries> 
 	</cfchart>
 	<cfscript>
-		_logger( "" );
-		_logger( "## Inspect #UCase( _inspect )# Benchmarks - #q.runs# runs" );
+		_logger( "#### Inspect #UCase( _inspect )# Benchmarks - #q.runs# runs" );
 		_logger( "" );
 		_logger( "![Inspect #UCase( _inspect )# Benchmarks](#getImageBase64( graph )#)" );
 		_logger( "" );
 	</cfscript>
 </cfloop>
 
-<!--- memory data is the same accross all runs anyway --->
 <cfchart chartheight="500" chartwidth="1024" 
 		title="Memory Benchmarks - #q.runs# runs" format="png" name="graph"
 		scaleFrom="#mem_range.min#" scaleTo="#mem_range.max#"> 
 	<cfchartseries type="line" seriesLabel="Memory"> 
 		<cfloop query="q">
-			<cfif q.type eq "hello-world" and q.inspect eq "none">
+			<cfif q.type eq "hello-world" and q.inspect eq "never">
 				<cfchartdata item="#q.version# #q.java#" value="#q.memory#"> 
 			</cfif>
 		</cfloop> 
 	</cfchartseries>
 </cfchart>
 <cfscript>
-	_logger( "## Memory Benchmarks - #q.runs# runs" );
+	_logger( "#### Memory Benchmarks - #q.runs# runs" );
 	_logger( "" );
 	_logger( "![Memory Benchmarks](#getImageBase64( graph )#)" );
 	_logger( "" );
