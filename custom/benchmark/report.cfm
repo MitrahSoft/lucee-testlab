@@ -38,6 +38,18 @@
 
 	}
 
+    ```
+    <cfquery name="mem_range" dbtype="query">
+        select min(memory) as min, max(memory) as max
+        from   q
+    </cfquery>
+
+    <cfquery name="time_range" dbtype="query">
+        select min(time) as min, max(time) as max
+        from   q
+    </cfquery>
+    ```
+
    // systemOutput( serializeJSON( q, true) );
 
     hdr = [];
@@ -63,7 +75,9 @@
 </cfscript>
 
 <cfloop list="none,once" item="_inspect">
-    <cfchart chartheight="500" chartwidth="1024" title="#UCase( _inspect )# Benchmarks - #q.runs# runs" format="png" name="graph"> 
+    <cfchart chartheight="500" chartwidth="1024" 
+            title="#UCase( _inspect )# Benchmarks - #q.runs# runs" format="png" name="graph"
+            scaleFrom="#time_range.min#" scaleTo="#time_range.max#"> 
         <cfchartseries type="line" seriesLabel="Hello World"> 
             <cfloop query="q">
                 <cfif q.type eq "hello-world" and q.inspect eq _inspect>
@@ -87,7 +101,9 @@
 </cfloop>
 
 <!--- memory data is the same accross all runs anyway --->
-<cfchart chartheight="500" chartwidth="1024" title="Memory Benchmarks - #q.runs# runs" format="png" name="graph"> 
+<cfchart chartheight="500" chartwidth="1024" 
+        title="Memory Benchmarks - #q.runs# runs" format="png" name="graph"
+        scaleFrom="#mem_range.min#" scaleTo="#mem_range.max#"> 
     <cfchartseries type="line" seriesLabel="Memory"> 
         <cfloop query="q">
             <cfif q.type eq "hello-world" and q.inspect eq "none">
