@@ -5,7 +5,15 @@
     q = queryNew("version,java,type,runs,inspect,memory")
     for (f in files){
         systemOutput ( f, true );
-        json = deserializeJson( fileRead( t ) );
+        json = deserializeJson( fileRead( f ) );
+
+        memory = 0;
+        for ( m in json.memory.usage ){
+            if ( isNumeric( json.memory.usage[ m ] ) )
+                memory += json.memory.usage[ m ];
+        }
+        json.run.memory = memory;
+
         for ( r in json.data ){
             StructAppend( r, json.run );
             row = queryAddRow( q );
@@ -52,5 +60,21 @@
     </cfchart>
     <cfscript>
         _logger( "![#inspect# Benchmarks](data:image/png;base64,#toBase64( graph )#)" );
+    </cfscript>
+</cfloop>
+
+<!--- memory data is the same accross all runs anyway --->
+<cfloop list="none" item="_inspect">
+    <cfchart chartheight="500" chartwidth="1024" title="Memory Benchmarks" format="png" name="graph"> 
+        <cfchartseries type="line" seriesLabel="Memory"> 
+            <cfloop query="q">
+                <cfif q.type eq "hello-world" and q.inspect eq _inspect>
+                    <cfchartdata item="#q.version# #q.java#" value="#q.memory#"> 
+                </cfif>
+            </cfloop> 
+        </cfchartseries>
+    </cfchart>
+    <cfscript>
+        _logger( "!Memory Benchmarks](data:image/png;base64,#toBase64( graph )#)" );
     </cfscript>
 </cfloop>
