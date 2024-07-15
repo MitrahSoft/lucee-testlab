@@ -1,4 +1,4 @@
-name: Simple benchmarking  
+name: Simple benchmarking
 
 on:
   workflow_dispatch:
@@ -10,10 +10,10 @@ jobs:
     strategy:
       fail-fast: true
       max-parallel: 1
-      matrix:        
-        luceeVersion: [ 5.4/snapshot/light, 6.0/snapshot/light ] #, 6.1/snapshot/light, 6.1.0/snapshot/light, 6.2/snapshot/light ]
+      matrix:
+        luceeVersion: [ 5.4/snapshot/light, 6.0/snapshot/light, 6.1/snapshot/light, 6.1.0/snapshot/light, 6.2/snapshot/light ]
         javaVersion: [ 11, 21 ]
-        exclude: 
+        exclude:
             - luceeVersion: 5.4/snapshot/jar
               javaVersion: 21
             - luceeVersion: 6.0/snapshot/jar
@@ -86,5 +86,5 @@ jobs:
             webroot: ${{ github.workspace }}/custom/benchmark
             execute: /report.cfm
             luceeVersionQuery: 5.4/stable/jar
-    
-    
+
+
