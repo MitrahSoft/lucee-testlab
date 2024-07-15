@@ -42,7 +42,7 @@
 </cfscript>
 
 <cfloop list="none,once" item="_inspect">
-    <cfchart chartheight="500" chartwidth="1024" title="#_inspect# Benchmarks" format="png" name="graph"> 
+    <cfchart chartheight="500" chartwidth="1024" title="#UCase( _inspect )# Benchmarks - #q.runs# runs" format="png" name="graph"> 
         <cfchartseries type="line" seriesLabel="Hello World"> 
             <cfloop query="q">
                 <cfif q.type eq "hello-world" and q.inspect eq _inspect>
@@ -59,24 +59,22 @@
         </cfchartseries> 
     </cfchart>
     <cfscript>
-        _logger( "## #UCase( inspect )# Benchmarks" );
-        _logger( "![#inspect# Benchmarks](data:image/png;base64,#toBase64( graph )#)" );
+        _logger( "## #UCase( _inspect )# Benchmarks - #q.runs# runs" );
+        _logger( "![#_inspect# Benchmarks](data:image/png;base64,#toBase64( graph )#)" );
     </cfscript>
 </cfloop>
 
 <!--- memory data is the same accross all runs anyway --->
-<cfloop list="none" item="_inspect">
-    <cfchart chartheight="500" chartwidth="1024" title="Memory Benchmarks" format="png" name="graph"> 
-        <cfchartseries type="line" seriesLabel="Memory"> 
-            <cfloop query="q">
-                <cfif q.type eq "hello-world" and q.inspect eq _inspect>
-                    <cfchartdata item="#q.version# #q.java#" value="#q.memory#"> 
-                </cfif>
-            </cfloop> 
-        </cfchartseries>
-    </cfchart>
-    <cfscript>
-        _logger( "## Memory Benchmarks" );
-        _logger( "!Memory Benchmarks](data:image/png;base64,#toBase64( graph )#)" );
-    </cfscript>
-</cfloop>
+<cfchart chartheight="500" chartwidth="1024" title="Memory Benchmarks - #q.runs# runs" format="png" name="graph"> 
+    <cfchartseries type="line" seriesLabel="Memory"> 
+        <cfloop query="q">
+            <cfif q.type eq "hello-world" and q.inspect eq "none">
+                <cfchartdata item="#q.version# #q.java#" value="#q.memory#"> 
+            </cfif>
+        </cfloop> 
+    </cfchartseries>
+</cfchart>
+<cfscript>
+    _logger( "## Memory Benchmarks - #q.runs# runs" );
+    _logger( "!Memory Benchmarks](data:image/png;base64,#toBase64( graph )#)" );
+</cfscript>
