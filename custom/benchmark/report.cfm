@@ -2,8 +2,8 @@
     dir = getDirectoryFromPath( getCurrentTemplatePath() ) & "artifacts";
     files = directoryList( dir );
 
-    q = queryNew("version,java,type,time,runs,inspect,memory")
-    for (f in files){
+    q = queryNew( "version,java,type,time,runs,inspect,memory" );
+    for ( f in files ){
         systemOutput ( f, true );
         json = deserializeJson( fileRead( f ) );
 
@@ -25,7 +25,7 @@
 		//systemOutput( arguments.message, true );
 		if ( !FileExists( server.system.environment.GITHUB_STEP_SUMMARY ) ){
 			fileWrite( server.system.environment.GITHUB_STEP_SUMMARY, "#### #server.lucee.version# ");
-			fileAppend( server.system.environment.GITHUB_STEP_SUMMARY, server.system.environment.toJson());
+			//fileAppend( server.system.environment.GITHUB_STEP_SUMMARY, server.system.environment.toJson());
 		}
 
 		if ( arguments.throw ) {
@@ -59,6 +59,7 @@
         </cfchartseries> 
     </cfchart>
     <cfscript>
+        _logger( "## #UCase( inspect )# Benchmarks" );
         _logger( "![#inspect# Benchmarks](data:image/png;base64,#toBase64( graph )#)" );
     </cfscript>
 </cfloop>
@@ -75,6 +76,7 @@
         </cfchartseries>
     </cfchart>
     <cfscript>
+        _logger( "## Memory Benchmarks" );
         _logger( "!Memory Benchmarks](data:image/png;base64,#toBase64( graph )#)" );
     </cfscript>
 </cfloop>
