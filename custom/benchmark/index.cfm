@@ -1,10 +1,10 @@
 <cfscript>
-	runs = server.system.environment.BENCHMARK_CYCLES ?: 100000;
+	runs = server.system.environment.BENCHMARK_CYCLES ?: 50000;
 	arr = [];
 	
 	ArraySet( arr, 1, runs, 0 );
 	
-	_memBefore = reportMem( "", {}, "before" );	
+	_memBefore = reportMem( "", {}, "before", "HEAP" );	
 
 	loop list="once,never" item="inspect" {
 		configImport( {"inspectTemplate": inspect }, "server", "admin" );
@@ -26,7 +26,7 @@
 		}
 	}
 
-	_memStat = reportMem( "", _memBefore, "before" );
+	_memStat = reportMem( "", _memBefore, "before", "HEAP" );
 
 	for ( r in _memStat.report )
 		_logger( r );
@@ -49,12 +49,14 @@
 
 	}
 
-	struct function reportMem( string type, struct prev={}, string name="" ) {
+	struct function reportMem( string type, struct prev={}, string name="", filter="" ) {
 		var qry = getMemoryUsage( type );
 		var report = [];
 		var used = { name: arguments.name };
 		querySort(qry,"type,name");
 		loop query=qry {
+			if ( len( arguments.filter ) and argument.filter neq qry.type )
+				continue;
 			if (qry.max == -1)
 				var perc = 0;
 			else 
