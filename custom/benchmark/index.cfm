@@ -3,7 +3,14 @@
 	arr = [];
 	warmup = []
 
-	results = [:];
+	results = {
+		data = [],
+		run = {
+			version: server.lucee.version,
+			java: server.java.version,
+			runs: runs
+		}
+	};
 	
 	ArraySet( arr, 1, runs, 0 );
 	ArraySet( warmup, 1, 100, 0 );
@@ -33,9 +40,11 @@
 			time = getTickCount()-s;
 
 			_logger( "Running #type# [#numberFormat( runs )#] times, inspect: [#inspect#] took #numberFormat( time )# ms, or #numberFormat(runs/(time/1000))# per second" );
-			results[ type & "- " & inspect ] ={
-				time: time
-			}
+			ArrayAppend( results.data, {
+				time: time,
+				inspect: inspect,
+				type: type 
+			});
 		}
 	}
 
@@ -43,6 +52,11 @@
 
 	for ( r in _memStat.report )
 		_logger( r );
+
+	results.memory=_memStat;
+	dir = getDirectoryFromPath( getCurrentTemplatePath() ) & "artifacts/";
+	directoryCreate( dir );
+	fileWrite( dir & server.lucee.version & "-" & server.java.version & "-results.json", results.toJson() );
 
 
 	function _logger( string message="", boolean throw=false ){
@@ -94,10 +108,4 @@
 			usage: used
 		};
 	}
-	dir = getDirectoryFromPath( getCurrentTemplatePath() ) & "artifacts/";
-	directoryCreate( dir );
-	systemOutput( dir, true );
-
-	fileWrite( dir & server.lucee.version & "-" & server.java.version & "-results.json", results.toJson() );
-	
 </cfscript>
