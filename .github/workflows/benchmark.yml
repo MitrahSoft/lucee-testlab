@@ -49,7 +49,7 @@ jobs:
           luceeVersionQuery: ${{ matrix.luceeVersion }}
       - uses: actions/upload-artifact@v4
         with:
-          name: results
+          name: results-${{matrix.javaVersion}}-${{ matrix.luceeVersion }}
           path: ${{ github.workspace }}/custom/benchmark/artifacts
   report:
     runs-on: ubuntu-latest
