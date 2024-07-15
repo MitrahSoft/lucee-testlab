@@ -1,22 +1,34 @@
 <cfscript>
-	runs = server.system.environment.BENCHMARK_CYCLES ?: 400000;
+	runs = server.system.environment.BENCHMARK_CYCLES ?: 200000;
 	arr = [];
 	
 	ArraySet( arr, 1, runs, 0 );
 	systemOutput( "Sleeping 5s first", true );
-	sleep( 5000 ); // time to settle
-	systemOutput( "Running hello world [#runs#] times", true );
-	_memBefore = reportMem( "", {}, "before" );
-	s = getTickCount();
-	ArrayEach( arr, function( item ){
-		_internalRequest(
-			template: "/tests/hello-world.cfm"
-		);
-	}, true );
+	_memBefore = reportMem( "", {}, "before" );	
+
+	loop list="once,never" item="inspect" {
+		configImport( {"inspectTemplate": inspect }, "server", "admin" );
+		sleep( 5000 ); // time to settle
+
+		systemOutput( "Running hello world [#runs#] times, inspect: [#inspect#]", true );
+		
+		s = getTickCount();
+		ArrayEach( arr, function( item ){
+			_internalRequest(
+				template: "/tests/hello-world.cfm"
+			);
+		}, true );
+
+		time = getTickCount()-s;
+
+		_logger( "Running hello world [#numberFormat( runs )#] times, inspect: [#inspect#] took #numberFormat( time )# ms, or #numberFormat(runs/(time/1000))# per second" );
+	}
 
 	_memStat = reportMem( "", _memBefore, "before" );
 
-	time = getTickCount()-s;
+	for ( r in _memStat.report )
+		_logger( r );
+
 
 	function _logger( string message="", boolean throw=false ){
 		systemOutput( arguments.message, true );
@@ -66,7 +78,5 @@
 		};
 	}
 
-	_logger( "Running hello world [#numberFormat( runs )#] times, took #numberFormat( time )# ms, or #numberFormat(runs/(time/1000))# per second" );
-	for ( r in _memStat.report )
-		_logger( r );
+	
 </cfscript>
