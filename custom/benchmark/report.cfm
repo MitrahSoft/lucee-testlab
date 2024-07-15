@@ -16,7 +16,7 @@
 
 		for ( r in json.data ){
 			StructAppend( r, json.run );
-			r.throughput = int( runs / ( time / 1000 ) );
+			r.throughput = int( json.run.runs / ( time / 1000 ) );
 			row = queryAddRow( q );
 			QuerySetRow( q, row, r );
 		}
@@ -45,7 +45,8 @@
 		saveContent variable="local.x" {
 			imageWriteToBrowser( arguments.img );
 		}
-		return listGetAt( x, 2, '"' );
+		var src = listGetAt( x, 2, '"' );
+		return mid( src, len( "data:image/png;base64," ) );
 	}
 
 	```
