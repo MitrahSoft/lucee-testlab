@@ -12,7 +12,7 @@
 			if ( isNumeric( json.memory.usage[ m ] ) )
 				memory += json.memory.usage[ m ];
 		}
-		json.run.memory = memory;
+		json.run.memory = int( memory / 1024 );
 
 		for ( r in json.data ){
 			StructAppend( r, json.run );
