@@ -5,7 +5,7 @@
     ArraySet( arr, 1, runs, 0 );
     s = getTickCount();
 
-    ArrayEach( function( item ){
+    ArrayEach( arr, function( item ){
         InternalRequest(
             url: "/tests/hello-world.cfm"
         );
