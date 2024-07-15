@@ -1,5 +1,5 @@
 <cfscript>
-	runs = server.system.environment.BENCHMARK_CYCLES ?: 250;
+	runs = server.system.environment.BENCHMARK_CYCLES ?: 50000;
 	arr = [];
 	warmup = []
 

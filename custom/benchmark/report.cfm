@@ -7,6 +7,8 @@
 		systemOutput ( f, true );
 		json = deserializeJson( fileRead( f ) );
 
+		json.run.java = listFirst( json.run.java, "." );
+
 		memory = 0;
 		for ( m in json.memory.usage ){
 			if ( isNumeric( json.memory.usage[ m ] ) )
