@@ -6,7 +6,7 @@
     s = getTickCount();
 
     ArrayEach( arr, function( item ){
-        InternalRequest(
+        _internalRequest(
             url: "/tests/hello-world.cfm"
         );
     }, true );
