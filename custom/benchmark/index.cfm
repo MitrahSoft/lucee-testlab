@@ -1,18 +1,26 @@
 <cfscript>
-	runs = server.system.environment.BENCHMARK_CYCLES ?: 50000;
+	runs = server.system.environment.BENCHMARK_CYCLES ?: 25000;
 	arr = [];
+	warmup = []
 	
 	ArraySet( arr, 1, runs, 0 );
+	ArraySet( warmup, 1, 100, 0 );
 	
 	_memBefore = reportMem( "", {}, "before", "HEAP" );	
 
 	loop list="once,never" item="inspect" {
 		configImport( {"inspectTemplate": inspect }, "server", "admin" );
-		systemOutput( "Sleeping 5s first", true );
-		sleep( 5000 ); // time to settle
-
+		
 		loop list="hello-world,json" item="type" {
-		systemOutput( "Running #type# [#numberFormat( runs )#] times, inspect: [#inspect#]", true );
+			ArrayEach( arr, function( item ){
+				_internalRequest(
+					template: "/tests/#type#.cfm"
+				);
+			}, true );
+			systemOutput( "Sleeping 2s first, after warmup", true );	
+			sleep( 2000 ); // time to settle
+
+			systemOutput( "Running #type# [#numberFormat( runs )#] times, inspect: [#inspect#]", true );
 			s = getTickCount();
 			ArrayEach( arr, function( item ){
 				_internalRequest(
