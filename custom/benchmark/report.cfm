@@ -22,6 +22,8 @@
 		}
 	}
 
+	runs = q.runs;
+
 	function _logger( string message="", boolean throw=false ){
 		//systemOutput( arguments.message, true );
 		if ( !FileExists( server.system.environment.GITHUB_STEP_SUMMARY ) ){
@@ -135,7 +137,7 @@
 
 <cfloop list="never,once" item="_inspect">
 	<cfchart chartheight="500" chartwidth="1024" 
-			title="#UCase( _inspect )# Benchmarks - #q.runs# runs" format="png" name="graph"
+			title="#UCase( _inspect )# Benchmarks - #runs# runs" format="png" name="graph"
 			scaleFrom="#throughput_range.min#" scaleTo="#throughput_range.max#"> 
 		<cfchartseries type="line" seriesLabel="Hello World"> 
 			<cfloop query="q">
@@ -153,7 +155,7 @@
 		</cfchartseries> 
 	</cfchart>
 	<cfscript>
-		_logger( "#### Inspect #UCase( _inspect )# Benchmarks - #q.runs# runs" );
+		_logger( "#### Inspect #UCase( _inspect )# Benchmarks - #runs# runs" );
 		_logger( "" );
 		_logger( "![Inspect #UCase( _inspect )# Benchmarks](#getImageBase64( graph )#)" );
 		_logger( "" );
@@ -161,7 +163,7 @@
 </cfloop>
 
 <cfchart chartheight="500" chartwidth="1024" 
-		title="Memory Benchmarks - #q.runs# runs" format="png" name="graph"
+		title="Memory Benchmarks - #runs# runs" format="png" name="graph"
 		scaleFrom="#mem_range.min#" scaleTo="#mem_range.max#"> 
 	<cfchartseries type="line" seriesLabel="Memory"> 
 		<cfloop query="q">
@@ -172,7 +174,7 @@
 	</cfchartseries>
 </cfchart>
 <cfscript>
-	_logger( "#### Memory Benchmarks - #q.runs# runs" );
+	_logger( "#### Memory Benchmarks - #runs# runs" );
 	_logger( "" );
 	_logger( "![Memory Benchmarks](#getImageBase64( graph )#)" );
 	_logger( "" );
