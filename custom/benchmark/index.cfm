@@ -94,10 +94,10 @@
 			usage: used
 		};
 	}
-	dir = getDirectoryFromPath( getCurrentTemplatePath() ) & "artifacts";
+	dir = getDirectoryFromPath( getCurrentTemplatePath() ) & "artifacts/";
 	directoryCreate( dir );
 	systemOutput( dir, true );
 
-	fileWrite( dir & server.lucee.version & server.java.version & "-results.json", results.toJson() );
+	fileWrite( dir & server.lucee.version & "-" & server.java.version & "-results.json", results.toJson() );
 	
 </cfscript>
