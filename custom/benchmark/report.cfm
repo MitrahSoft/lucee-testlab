@@ -49,7 +49,8 @@
 		}
 		var src = listGetAt( x, 2, '"' );
 		// hack suggested here https://stackoverflow.com/questions/61553399/how-can-i-save-a-valid-image-to-github-using-their-api#comment125857660_71201317
-		return mid( src, len( "data:image/png;base64," ) + 1 );
+		// return mid( src, len( "data:image/png;base64," ) + 1 ); didn't work either
+		return src;
 	}
 
 	```
