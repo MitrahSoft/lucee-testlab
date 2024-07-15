@@ -2,6 +2,8 @@
 	runs = server.system.environment.BENCHMARK_CYCLES ?: 25000;
 	arr = [];
 	warmup = []
+
+	results = [:];
 	
 	ArraySet( arr, 1, runs, 0 );
 	ArraySet( warmup, 1, 100, 0 );
@@ -31,6 +33,9 @@
 			time = getTickCount()-s;
 
 			_logger( "Running #type# [#numberFormat( runs )#] times, inspect: [#inspect#] took #numberFormat( time )# ms, or #numberFormat(runs/(time/1000))# per second" );
+			results[ type & "- " & inspect ] ={
+				time: time
+			}
 		}
 	}
 
@@ -89,6 +94,9 @@
 			usage: used
 		};
 	}
+	dir = getDirectoryFromPath( getCurrentTemplatePath() ) & "artifacts";
+	directoryCreate( dir );
 
+	fileWrite( dir & server.lucee.version & server.java.version & "-results.json", results.toJson() );
 	
 </cfscript>

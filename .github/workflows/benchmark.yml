@@ -47,4 +47,43 @@ jobs:
           webroot: ${{ github.workspace }}/custom/benchmark
           execute: /index.cfm
           luceeVersionQuery: ${{ matrix.luceeVersion }}
-  
+      - uses: actions/upload-artifact@v4
+        with:
+          name: results
+          path: ${{ github.workspace }}/custom/benchmark/artifacts
+  report:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set up JDK ${{matrix.javaVersion}}
+        uses: actions/setup-java@v4
+        with:
+            java-version: ${{matrix.javaVersion}}
+            distribution: "temurin"
+      - name: Cache Maven packages
+        if: always()
+        uses: actions/cache@v4
+        with:
+            path: ~/.m2
+            key: maven-cache
+      - name: Cache Lucee files
+        uses: actions/cache@v4
+        if: always()
+        with:
+            path: /home/runner/work/_actions/lucee/script-runner/main/lucee-download-cache
+            key: lucee-downloads
+      - uses: actions/download-artifact@v4
+        with:
+            path: artifacts
+            merge-multiple: true
+      - name: Display structure of downloaded files
+        run: ls -R artifacts
+      - name: Generate Report
+        uses: lucee/script-runner@main
+        with:
+            webroot: ${{ github.workspace }}/custom/benchmark
+            execute: /report.cfm
+            luceeVersionQuery: 5.4/stable/jar
+    
+    
