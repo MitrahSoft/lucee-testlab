@@ -55,7 +55,7 @@
     hdr = [];
     div = [];
     loop list=q.columnlist item="col" {
-        arrayAppend( hrd, col );
+        arrayAppend( hdr, col );
         arrayAppend( div, "---" );
     }
     _logger( "" );
