@@ -1,19 +1,23 @@
 <cfscript>
-    runs = server.system.environment.BENCHMARK_CYCLES ?: 10000;
-    arr = [];
-    systemOutput("Running hello world [#runs#] times", true);
-    ArraySet( arr, 1, runs, 0 );
-    s = getTickCount();
+	runs = server.system.environment.BENCHMARK_CYCLES ?: 400000;
+	arr = [];
+	systemOutput("Running hello world [#runs#] times", true);
+	ArraySet( arr, 1, runs, 0 );
 
-    ArrayEach( arr, function( item ){
-        _internalRequest(
-            template: "/tests/hello-world.cfm"
-        );
-    }, true );
+	sleep( 5000 ); // time to settle
+	_memBefore = reportMem( "", {}, "before" );
+	s = getTickCount();
+	ArrayEach( arr, function( item ){
+		_internalRequest(
+			template: "/tests/hello-world.cfm"
+		);
+	}, true );
 
-    time = getTickCount()-s;
+	_memStat = reportMem( "", _memBefore, "before" );
 
-    function _logger( string message="", boolean throw=false ){
+	time = getTickCount()-s;
+
+	function _logger( string message="", boolean throw=false ){
 		systemOutput( arguments.message, true );
 		if ( !FileExists( server.system.environment.GITHUB_STEP_SUMMARY ) ){
 			fileWrite( server.system.environment.GITHUB_STEP_SUMMARY, "#### #server.lucee.version# ");
@@ -30,5 +34,37 @@
 
 	}
 
-    _logger( "Running hello world [#runs#] times, took #numberFormat(time)# ms, or #numberFormat(runs/(time/1000))# per second" );
+	struct function reportMem( string type, struct prev={}, string name="" ) {
+		var qry = getMemoryUsage( type );
+		var report = [];
+		var used = { name: arguments.name };
+		querySort(qry,"type,name");
+		loop query=qry {
+			if (qry.max == -1)
+				var perc = 0;
+			else 
+				var perc = int( ( qry.used / qry.max ) * 100 );
+			//if(qry.max<0 || qry.used<0 || perc<90) 	continue;
+			//if(qry.max<0 || qry.used<0 || perc<90) 	continue;
+			var rpt = replace(ucFirst(qry.type), '_', ' ')
+				& " " & qry.name & ": " & numberFormat(perc) & "%, " & numberFormat( qry.used / 1024 / 1024 ) & " Mb";
+			if ( structKeyExists( arguments.prev, qry.name ) ) {
+				var change = numberFormat( (qry.used - arguments.prev[ qry.name ] ) / 1024 / 1024 );
+				if ( change gt 0 ) {
+					rpt &= ", (+ " & change & "Mb )";
+				} else if ( change lt 0 ) {
+					rpt &= ", ( " & change & "Mb )";
+				}
+			}
+			arrayAppend( report, rpt );
+			used[ qry.name ] = qry.used;
+		}
+		return {
+			report: report,
+			usage: used
+		};
+	}
+
+	_logger( "Running hello world [#numberFormat( runs )#] times, took #numberFormat( time )# ms, or #numberFormat(runs/(time/1000))# per second" );
+	_logger( _memStat );
 </cfscript>
