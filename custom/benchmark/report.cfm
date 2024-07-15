@@ -33,12 +33,33 @@
 			fileAppend( server.system.environment.GITHUB_STEP_SUMMARY, "> #arguments.message##chr(10)#");
 			throw arguments.message;
 		} else {
-			fileAppend( server.system.environment.GITHUB_STEP_SUMMARY, " #arguments.message##chr(10)#");
+			fileAppend( server.system.environment.GITHUB_STEP_SUMMARY, "#arguments.message##chr(10)#");
 		}
 
 	}
 
     systemOutput( serializeJSON( q, true) );
+
+    hdr = [];
+    div = [];
+    loop list=q.columnlist item=col {
+        arrayAppend( hrd, col );
+        arrayAppend( div, "---" );
+    }
+    _logger( "" );
+    _logger( "|" & arrayToList( hdr, "|" ) & "|" );
+    _logger( "|" & arrayToList( div, "|" ) & "|" );
+
+    row = [];
+    loop query=q {
+        loop list=q.columnlist item=col {
+            arrayAppend( row, q [ col ] );
+        }
+        _logger( "|" & arrayToList( row, "|" ) & "|" );
+        row = [];
+    }
+
+    _logger( "" );
 </cfscript>
 
 <cfloop list="none,once" item="_inspect">
@@ -59,8 +80,9 @@
         </cfchartseries> 
     </cfchart>
     <cfscript>
-        _logger( "## #UCase( _inspect )# Benchmarks - #q.runs# runs" );
-        _logger( "![#_inspect# Benchmarks](data:image/png;base64,#toBase64( graph )#)" );
+        _logger( "## Inspect #UCase( _inspect )# Benchmarks - #q.runs# runs" );
+        _logger( "" );
+        _logger( "![Inspect #UCase( _inspect )# Benchmarks](data:image/png;base64,#toBase64( graph )#)" );
     </cfscript>
 </cfloop>
 
@@ -76,5 +98,6 @@
 </cfchart>
 <cfscript>
     _logger( "## Memory Benchmarks - #q.runs# runs" );
-    _logger( "!Memory Benchmarks](data:image/png;base64,#toBase64( graph )#)" );
+    _logger( "" );
+    _logger( "![Memory Benchmarks](data:image/png;base64,#toBase64( graph )#)" );
 </cfscript>
