@@ -30,7 +30,7 @@
 
 	loop list="once,never" item="inspect" {
 		loop list="#application.testSuite.toList()#" item="type" {
-			dumpTable( q_hello_once, type, inspect, replace(type,"-", " ", "all") & " - " & UCase( inspect ) );
+			dumpTable( q, type, inspect, replace(type,"-", " ", "all") & " - " & UCase( inspect ) );
 		}
 	}
 

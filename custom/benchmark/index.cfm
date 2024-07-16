@@ -1,5 +1,5 @@
 <cfscript>
-	runs = server.system.environment.BENCHMARK_CYCLES ?: 20000;
+	runs = server.system.environment.BENCHMARK_CYCLES ?: 100000;
 	arr = [];
 	warmup = []
 
@@ -11,22 +11,22 @@
 			runs: runs
 		}
 	};
-	
+
 	ArraySet( arr, 1, runs, 0 );
 	ArraySet( warmup, 1, 100, 0 );
-	
-	_memBefore = reportMem( "", {}, "before", "HEAP" );	
+
+	_memBefore = reportMem( "", {}, "before", "HEAP" );
 
 	loop list="once,never" item="inspect" {
 		configImport( {"inspectTemplate": inspect }, "server", "admin" );
-		
+
 		loop list="#application.testSuite.toList()#" item="type" {
 			ArrayEach( arr, function( item ){
 				_internalRequest(
 					template: "/tests/#type#.cfm"
 				);
 			}, true );
-			systemOutput( "Sleeping 2s first, after warmup", true );	
+			systemOutput( "Sleeping 2s first, after warmup", true );
 			sleep( 2000 ); // time to settle
 
 			systemOutput( "Running #type# [#numberFormat( runs )#] times, inspect: [#inspect#]", true );
@@ -43,7 +43,7 @@
 			ArrayAppend( results.data, {
 				time: time,
 				inspect: inspect,
-				type: type 
+				type: type
 			});
 		}
 	}
@@ -86,7 +86,7 @@
 				continue;
 			if (qry.max == -1)
 				var perc = 0;
-			else 
+			else
 				var perc = int( ( qry.used / qry.max ) * 100 );
 			//if(qry.max<0 || qry.used<0 || perc<90) 	continue;
 			//if(qry.max<0 || qry.used<0 || perc<90) 	continue;
