@@ -26,6 +26,14 @@
 
 	runs = q.runs;
 
+	_logger( "## Summary Report" );
+
+	loop list="once,never" item="inspect" {
+		loop list="#application.testSuite.toList()#" item="type" {
+			dumpTable( q_hello_once, type, inspect, replace(type,"-", " ", "all") & " - " & UCase( inspect ) );
+		}
+	}
+
 	function _logger( string message="", boolean throw=false ){
 		//systemOutput( arguments.message, true );
 		if ( !FileExists( server.system.environment.GITHUB_STEP_SUMMARY ) ){
@@ -53,54 +61,20 @@
 		return src;
 	}
 
-	```
-	<cfquery name="mem_range" dbtype="query">
-		select min(memory) as min, max(memory) as max
-		from   q
-	</cfquery>
-
-	<cfquery name="throughput_range" dbtype="query">
-		select min(throughput) as min, max(throughput) as max
-		from   q
-	</cfquery>
-
-	<cfquery name="q_json_never" dbtype="query">
-		select	version,java,time,memory,throughput
-		from	q
-		where	type = 'json'
-				and inspect='never'
-		order	by throughput desc
-	</cfquery>
-
-	<cfquery name="q_json_once" dbtype="query">
-		select	version,java,time,memory,throughput
-		from	q
-		where	type = 'json' 
-				and inspect='once'
-		order	by throughput desc
-	</cfquery>
-
-	<cfquery name="q_hello_never" dbtype="query">
-		select	version,java,time,memory,throughput
-		from	q
-		where	type = 'hello-world' 
-				and inspect='never'
-		order	by throughput desc 
-	</cfquery>
-
-	<cfquery name="q_hello_once" dbtype="query">
-		select	version,java,time,memory,throughput
-		from	q
-		where	type = 'hello-world' 
-				and inspect='once'
-		order	by throughput desc 
-	</cfquery>
-
-	```
-
    // systemOutput( serializeJSON( q, true) );
 
-   function dumpTable( q, title ) localmode=true {
+   function dumpTable( q_src, type, inspect, title ) localmode=true {
+
+		```
+		<cfquery name="local.q" dbtype="query">
+			select	version,java,time,memory,throughput
+			from	arguments.q_src
+			where	type = <cfqueryparam value="#arguments.type#">
+					and inspect = <cfqueryparam value="#arguments.inspect#">
+			order	by throughput desc 
+		</cfquery>
+		```
+
 		var hdr = [];
 		var div = [];
 		loop list=q.columnlist item="local.col" {
@@ -131,14 +105,21 @@
 		_logger( "" );
 	}
 
-	_logger( "## Summary Report" );
-	dumpTable( q_hello_once, "Hello World - Inspect Once" );
-	dumpTable( q_hello_never, "Hello World - Inspect Never" );
-	dumpTable( q_json_once, "JSON - Inspect Once" );
-	dumpTable( q_json_never, "JSON - Inspect Never" );
-		
 </cfscript>
 <!--- sigh, github doesn't suport data image urls --->
+<!---
+
+<cfquery name="mem_range" dbtype="query">
+	select min(memory) as min, max(memory) as max
+	from   q
+</cfquery>
+
+<cfquery name="throughput_range" dbtype="query">
+	select min(throughput) as min, max(throughput) as max
+	from   q
+</cfquery>
+
+
 
 <cfloop list="never,once" item="_inspect">
 	<cfchart chartheight="500" chartwidth="1024" 
@@ -184,3 +165,4 @@
 	_logger( "![Memory Benchmarks](#getImageBase64( graph )#)" );
 	_logger( "" );
 </cfscript>
+--->

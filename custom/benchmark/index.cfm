@@ -1,5 +1,5 @@
 <cfscript>
-	runs = server.system.environment.BENCHMARK_CYCLES ?: 100000;
+	runs = server.system.environment.BENCHMARK_CYCLES ?: 20000;
 	arr = [];
 	warmup = []
 
@@ -20,7 +20,7 @@
 	loop list="once,never" item="inspect" {
 		configImport( {"inspectTemplate": inspect }, "server", "admin" );
 		
-		loop list="hello-world,json" item="type" {
+		loop list="#application.testSuite.toList()#" item="type" {
 			ArrayEach( arr, function( item ){
 				_internalRequest(
 					template: "/tests/#type#.cfm"
