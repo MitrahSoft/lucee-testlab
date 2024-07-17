@@ -5,6 +5,7 @@ component {
         application.testSuite = [
             "hello-world"
             , "json"
+            , "db"
            // , "qoq-hsqldb"
         ];
     }
