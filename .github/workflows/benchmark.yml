@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
-      #max-parallel: 1
+      max-parallel: 1
       matrix:
         luceeVersion: [ 5.4/snapshot/light, 6.0/snapshot/light, 6.1/snapshot/light, 6.1.0/snapshot/light, 6.2/snapshot/light ]
         javaVersion: [ 11, 21 ]
