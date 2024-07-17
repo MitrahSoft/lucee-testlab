@@ -9,9 +9,10 @@
 	params.id = { value: result.generatedKey, sqltype="numeric" };
 
 	query name="q" params=params {
-		echo( "select test from benchmark where test = :test and id = :id " );
+		echo( "select id, test from benchmark where test = :test and id = :id " );
 	}
-	
-	if ( q.id != params.id || q.test != params.test || q.recordcount !=1 )
+
+	if ( q.id != params.id.value || q.test != params.test.value || q.recordcount !=1 )
 		throw "invalid result [#params.toJson()#], [#q.toJson()#]";
+
 </cfscript>
