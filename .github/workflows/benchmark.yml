@@ -89,6 +89,7 @@ jobs:
       - name: Display structure of downloaded files
         run: ls -R ${{ github.workspace }}/custom/benchmark/artifacts
       - name: Generate Report
+        if: always()
         uses: lucee/script-runner@main
         with:
             webroot: ${{ github.workspace }}/custom/benchmark
