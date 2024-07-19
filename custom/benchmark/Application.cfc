@@ -6,7 +6,7 @@ component {
             "hello-world"
             , "json"
             , "db"
-           // , "qoq-hsqldb"
+            , "qoq-hsqldb"
         ];
     }
 }
