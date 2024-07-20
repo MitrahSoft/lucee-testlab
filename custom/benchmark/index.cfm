@@ -1,6 +1,5 @@
 <cfscript>
 	runs = server.system.environment.BENCHMARK_CYCLES ?: 25000;
-	arr = [];
 	warmup = []
 
 	results = {
@@ -12,18 +11,22 @@
 		}
 	};
 
-	ArraySet( arr, 1, runs, 0 );
-	ArraySet( warmup, 1, 100, 0 );
+	ArraySet( warmup, 1, 25, 0 );
 
 	_memBefore = reportMem( "", {}, "before", "HEAP" );
+	errorCount = 0;
+
+	sleep( 2000 ); // initial time to settle
 
 	loop list="once,never" item="inspect" {
 		configImport( {"inspectTemplate": inspect }, "server", "admin" );
 
 		loop list="#application.testSuite.toList()#" item="type" {
-			ArrayEach( arr, function( item ){
+			template = "/tests/#type#.cfm"
+			
+			ArrayEach( warmup, function( item ){
 				_internalRequest(
-					template: "/tests/#type#.cfm"
+					template: template
 				);
 			}, true );
 			systemOutput( "Sleeping 2s first, after warmup", true );
@@ -31,11 +34,22 @@
 
 			systemOutput( "Running #type# [#numberFormat( runs )#] times, inspect: [#inspect#]", true );
 			s = getTickCount();
-			ArrayEach( arr, function( item ){
-				_internalRequest(
-					template: "/tests/#type#.cfm"
-				);
-			}, true );
+			runError = "";
+			arr = [];
+			ArraySet( arr, 1, runs, 0 );
+			try {
+				ArrayEach( arr, function( item, idx, array ){
+					var start = getTickCount();
+					_internalRequest(
+						template: template
+					);
+					arguments.item = getTickCount() - start;
+				}, true );
+			} catch ( e ){
+				systemOutput( e, true );
+				runError = e.message;
+				errorCount++;
+			}
 
 			time = getTickCount()-s;
 
@@ -43,7 +57,11 @@
 			ArrayAppend( results.data, {
 				time: time,
 				inspect: inspect,
-				type: type
+				type: type,
+				_min: int( arrayMin( arr ) ),
+				_max: int( arrayMax( arr ) ),
+				_avg: int( arrayAvg( arr ) ),
+				error: runError
 			});
 		}
 	}
@@ -58,6 +76,22 @@
 	directoryCreate( dir );
 	fileWrite( dir & server.lucee.version & "-" & server.java.version & "-results.json", results.toJson() );
 
+	logs = {};
+	loop list="exception.log" item="logFile"{
+		log = expandPath( '{lucee-server}/logs/#logFile#' );
+		if ( fileExists( log ) ){
+			systemOutput( "", true );
+			systemOutput( "--------- #logFile#-----------", true );
+			_log = fileRead( log );
+			logs [ _log ] = trim( _log );
+			systemOutput( _log, true );
+		} else {
+			systemOutput( "--------- no #logFile# [#log#]", true );
+		}
+	}
+
+	if ( errorCount > 0 )
+		throw "#errorCount# suites(s) failed";
 
 	function _logger( string message="", boolean throw=false ){
 		systemOutput( arguments.message, true );

@@ -2,7 +2,7 @@
 	dir = getDirectoryFromPath( getCurrentTemplatePath() ) & "artifacts";
 	files = directoryList( dir );
 
-	q = queryNew( "version,java,type,time,runs,inspect,memory,throughput" );
+	q = queryNew( "version,java,type,time,runs,inspect,memory,throughput,_min,_max,_avg,error" );
 	for ( f in files ){
 		systemOutput ( f, true );
 		json = deserializeJson( fileRead( f ) );
@@ -67,7 +67,7 @@
 
 		```
 		<cfquery name="local.q" dbtype="query">
-			select	version,java,time,memory,throughput
+			select	version,java,time,memory,throughput,_min,_avg_,_max, error
 			from	arguments.q_src
 			where	type = <cfqueryparam value="#arguments.type#">
 					and inspect = <cfqueryparam value="#arguments.inspect#">
@@ -78,8 +78,8 @@
 		var hdr = [];
 		var div = [];
 		loop list=q.columnlist item="local.col" {
-			arrayAppend( hdr, col );
-			if ( col eq "memory" or col eq "time" or col eq "throughput" )
+			arrayAppend( hdr, replace( col, "_", "");
+			if ( col eq "memory" or col eq "time" or col eq "throughput" or left( col, 1 ) eq "_" )
 				arrayAppend( div, "---:" );
 			else
 				arrayAppend( div, "---" );
