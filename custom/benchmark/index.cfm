@@ -47,6 +47,7 @@
 				}, true );
 			} catch ( e ){
 				systemOutput( e, true );
+				_logger( e.message );
 				runError = e.message;
 				errorCount++;
 			}
