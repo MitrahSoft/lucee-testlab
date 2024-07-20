@@ -55,6 +55,7 @@ jobs:
           extensions: 7E673D15-D87C-41A6-8B5F1956528C605F #mysql
           luceeVersionQuery: ${{ matrix.luceeVersion }}
       - uses: actions/upload-artifact@v4
+        if: always()
         with:
           name: results-${{ strategy.job-index }}
           path: ${{ github.workspace }}/custom/benchmark/artifacts

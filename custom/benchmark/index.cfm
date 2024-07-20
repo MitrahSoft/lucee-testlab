@@ -22,28 +22,29 @@
 		configImport( {"inspectTemplate": inspect }, "server", "admin" );
 
 		loop list="#application.testSuite.toList()#" item="type" {
-			template = "/tests/#type#.cfm"
-			
-			ArrayEach( warmup, function( item ){
-				_internalRequest(
-					template: template
-				);
-			}, true );
-			systemOutput( "Sleeping 2s first, after warmup", true );
-			sleep( 2000 ); // time to settle
-
-			systemOutput( "Running #type# [#numberFormat( runs )#] times, inspect: [#inspect#]", true );
-			s = getTickCount();
+			template = "/tests/#type#.cfm";
 			runError = "";
 			arr = [];
 			ArraySet( arr, 1, runs, 0 );
 			try {
-				ArrayEach( arr, function( item, idx, array ){
+				systemOutput( "Warmup #type#, inspect: [#inspect#]", true );
+				ArrayEach( warmup, function( item ){
+					_internalRequest(
+						template: template
+					);
+				}, true );
+				systemOutput( "Sleeping 2s first, after warmup", true );
+				sleep( 2000 ); // time to settle
+
+				systemOutput( "Running #type# [#numberFormat( runs )#] times, inspect: [#inspect#]", true );
+				s = getTickCount();
+			
+				ArrayEach( arr, function( item, idx, _arr ){
 					var start = getTickCount();
 					_internalRequest(
 						template: template
 					);
-					arguments.item = getTickCount() - start;
+					arguments._arr[ arguments.idx ] = getTickCount() - start;
 				}, true );
 			} catch ( e ){
 				systemOutput( e, true );
