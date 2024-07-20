@@ -92,7 +92,7 @@
 	}
 
 	if ( errorCount > 0 )
-		throw "#errorCount# suites(s) failed";
+		_logger( message="#errorCount# benchmark(s) failed", throw=true );
 
 	function _logger( string message="", boolean throw=false ){
 		systemOutput( arguments.message, true );

@@ -78,7 +78,7 @@
 		var hdr = [];
 		var div = [];
 		loop list=q.columnlist item="local.col" {
-			arrayAppend( hdr, replace( col, "_", "");
+			arrayAppend( hdr, replace( col, "_", "") );
 			if ( col eq "memory" or col eq "time" or col eq "throughput" or left( col, 1 ) eq "_" )
 				arrayAppend( div, "---:" );
 			else
