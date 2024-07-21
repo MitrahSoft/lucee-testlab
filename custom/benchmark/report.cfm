@@ -69,7 +69,7 @@
 		<cfquery name="local.q" dbtype="query">
 			select	version, java, time, memory,
 					throughput, _min, _avg, _max, error
-			from	arguments.q_src
+			from	arguments.q_src 
 			where	type = <cfqueryparam value="#arguments.type#">
 					and inspect = <cfqueryparam value="#arguments.inspect#">
 			order	by throughput desc 

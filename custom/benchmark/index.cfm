@@ -1,5 +1,6 @@
 <cfscript>
-	runs = server.system.environment.BENCHMARK_CYCLES ?: 25000;
+	setting requesttimeout=10000;
+	runs = server.system.environment.BENCHMARK_CYCLES ?: 2500;
 	warmup = []
 
 	results = {
@@ -19,16 +20,19 @@
 	sleep( 2000 ); // initial time to settle
 
 	loop list="once,never" item="inspect" {
-		configImport( {"inspectTemplate": inspect }, "server", "admin" );
+		configImport( {"inspectTemplate": inspect }, "server", request.adminPassword );
 
 		loop list="#application.testSuite.toList()#" item="type" {
-			template = "/tests/#type#.cfm";
+			template = "/benchmark/tests/#type#.cfm";
 			runError = "";
 			arr = [];
 			ArraySet( arr, 1, runs, 0 );
+			s = getTickCount();
+			
 			try {
 				systemOutput( "Warmup #type#, inspect: [#inspect#]", true );
-				ArrayEach( warmup, function( item ){
+				ArrayEach( warmup, function( item, idx ){
+					echo(idx & ", ");
 					_internalRequest(
 						template: template
 					);
@@ -40,6 +44,7 @@
 				s = getTickCount();
 			
 				ArrayEach( arr, function( item, idx, _arr ){
+					echo(idx & ", ");
 					var start = getTickCount();
 					_internalRequest(
 						template: template
@@ -47,11 +52,15 @@
 					arguments._arr[ arguments.idx ] = getTickCount() - start;
 				}, true );
 			} catch ( e ){
+				echo(e);
 				systemOutput( e, true );
 				_logger( e.message );
-				runError = e.message;
+				runError = e;
 				errorCount++;
 			}
+
+			if (!isSimpleValue(runError))
+				echo(runError);
 
 			time = getTickCount()-s;
 
@@ -75,7 +84,8 @@
 
 	results.memory=_memStat;
 	dir = getDirectoryFromPath( getCurrentTemplatePath() ) & "artifacts/";
-	directoryCreate( dir );
+	if ( !directoryExists( dir ) )
+		directoryCreate( dir );
 	fileWrite( dir & server.lucee.version & "-" & server.java.version & "-results.json", results.toJson() );
 
 	logs = {};
@@ -97,6 +107,15 @@
 
 	function _logger( string message="", boolean throw=false ){
 		systemOutput( arguments.message, true );
+		echo (arguments.message & "<br>");
+		if ( !StructKeyExists( server.system.environment, "GITHUB_STEP_SUMMARY" ) ){
+			if ( arguments.throw ) {
+				throw arguments.message;
+			} else {
+				return;
+			}
+		}
+
 		if ( !FileExists( server.system.environment.GITHUB_STEP_SUMMARY ) ){
 			fileWrite( server.system.environment.GITHUB_STEP_SUMMARY, "#### #server.lucee.version# ");
 			fileAppend( server.system.environment.GITHUB_STEP_SUMMARY, server.system.environment.toJson());
