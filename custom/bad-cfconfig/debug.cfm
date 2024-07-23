@@ -160,17 +160,18 @@
 
 		loop array=expect_empty_config item="prop"{
 			if ( !structKeyExists( cfconfig, "prop" ) ){
-				_logger( "ERROR: cfconfig property doesn't exist [#prop#]", true);
-			} else if ( isSimpleValue (config[prop ] ) ) {
+				_logger( "cfconfig property doesn't exist [#prop#]");
+			} else if ( isSimpleValue (config[ prop ] ) ) {
 				_logger( "ERROR: cfconfig property [#prop#] should be an array or struct, [#cfconfig[ prop ].toJson()#]", true);
 			} else if ( len( cfconfig[ prop] ) != 0 ){
 				_logger( "ERROR: cfconfig property [#prop#] should be empty [#cfconfig[ prop ].toJson()# ]", true);
 			}
 		}
+
+		_logger( cfconfig );
+
 	}
 
-
-	
 	
 	if ( structKeyExists( logs, "err.log" ) && len( logs["err.log"] ?: "" ) ) {
 		_logger( logs[ "err.log" ] , true);

@@ -119,7 +119,7 @@ jobs:
         run: |
           mkdir -p /home/runner/work/_actions/lucee/script-runner/main/temp/lucee/lucee-server/deploy/
            cp -a ${{ github.workspace }}/custom/bad-cfconfig/.CFConfig-empty-cacheHandlers.json /home/runner/work/_actions/lucee/script-runner/main/temp/lucee/lucee-server/deploy/.CFConfig.json
-      - name: Check good .CFConfig with newer image extension ( via /deploy )
+      - name: Check .CFConfig with empty cacheHandlers ( via /deploy )
         uses: lucee/script-runner@main
         if: always()
         with:
