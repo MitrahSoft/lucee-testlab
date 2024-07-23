@@ -91,6 +91,7 @@
 
 	check_extensions        = server.system.environment.check_extensions ?: "";
 	check_extensions_since  = server.system.environment.check_extensions_since ?: "";
+	expect_empty_config     = server.system.environment.expect_empty_config ?: "";\
 	
 	// don't crash on older versions
 	if ( len( check_extensions_since ) ) {
@@ -149,6 +150,27 @@
 			}
 		}
 	}
+
+	if ( len( expect_empty_config ) ) {
+		_logger( "" );
+		_logger( "expect_empty_config: #expect_empty_config#" )
+		expect_empty_config = ListToArray( expect_empty_config, "," );
+
+		cfconfig = deserializeJSON( fileRead( expandPath('{lucee-config}.CFConfig.json') ) );
+
+		loop array=expect_empty_config item="prop"{
+			if ( !structKeyExists( cfconfig, "prop" ) ){
+				_logger( "ERROR: cfconfig property doesn't exist [#prop#]", true);
+			} else if ( isSimpleValue (config[prop ] ) ) {
+				_logger( "ERROR: cfconfig property [#prop#] should be an array or struct, [#cfconfig[ prop ].toJson()#]", true);
+			} else if ( len( cfconfig[ prop] ) != 0 ){
+				_logger( "ERROR: cfconfig property [#prop#] should be empty [#cfconfig[ prop ].toJson()# ]", true);
+			}
+		}
+	}
+
+
+	
 	
 	if ( structKeyExists( logs, "err.log" ) && len( logs["err.log"] ?: "" ) ) {
 		_logger( logs[ "err.log" ] , true);

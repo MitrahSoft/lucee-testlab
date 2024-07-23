@@ -97,7 +97,6 @@ jobs:
         env:
           check_extensions: B737ABC4-D43F-4D91-8E8E973E37C40D1B:2.0.0.28-SNAPSHOT
 
-
       - name: Copy .CFConfig-newer-extension.json5 into /deploy
         if: always()
         run: |
@@ -114,6 +113,22 @@ jobs:
         env:
           check_extensions: B737ABC4-D43F-4D91-8E8E973E37C40D1B:2.0.0.28-SNAPSHOT
           check_extensions_since: 6.1.1
+
+      - name: Copy .CFConfig-empty-cacheHandlers.json5 into /deploy
+        if: always()
+        run: |
+          mkdir -p /home/runner/work/_actions/lucee/script-runner/main/temp/lucee/lucee-server/deploy/
+           cp -a ${{ github.workspace }}/custom/bad-cfconfig/.CFConfig-empty-cacheHandlers.json5 /home/runner/work/_actions/lucee/script-runner/main/temp/lucee/lucee-server/deploy/.CFConfig.json
+      - name: Check good .CFConfig with newer image extension ( via /deploy )
+        uses: lucee/script-runner@main
+        if: always()
+        with:
+          webroot: ${{ github.workspace }}/custom/bad-cfconfig
+          execute: /debug.cfm
+          luceeVersionQuery: ${{ matrix.luceeVersion }}
+          preCleanup: false
+        env:
+          expect_empty_config: cacheHandlers
 
       - name: Check bad .CFConfig with unknown extension version LUCEE_BASE_CONFIG
         uses: lucee/script-runner@main
