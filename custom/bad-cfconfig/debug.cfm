@@ -91,7 +91,7 @@
 
 	check_extensions        = server.system.environment.check_extensions ?: "";
 	check_extensions_since  = server.system.environment.check_extensions_since ?: "";
-	expect_empty_config     = server.system.environment.expect_empty_config ?: "";\
+	expect_empty_config     = server.system.environment.expect_empty_config ?: "";
 	
 	// don't crash on older versions
 	if ( len( check_extensions_since ) ) {
