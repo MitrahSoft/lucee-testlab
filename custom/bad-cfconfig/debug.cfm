@@ -151,6 +151,7 @@
 		}
 	}
 
+	// importing a property with an empty array or struct should override/remove the default config altogether
 	if ( len( expect_empty_config ) ) {
 		_logger( "" );
 		_logger( "expect_empty_config: #expect_empty_config#" )
@@ -167,12 +168,8 @@
 				_logger( "ERROR: cfconfig property [#prop#] should be empty [#cfconfig[ prop ].toJson()# ]", true);
 			}
 		}
-
-		_logger( cfconfig );
-
 	}
 
-	
 	if ( structKeyExists( logs, "err.log" ) && len( logs["err.log"] ?: "" ) ) {
 		_logger( logs[ "err.log" ] , true);
 	}
