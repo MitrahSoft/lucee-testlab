@@ -118,7 +118,7 @@ jobs:
         if: always()
         run: |
           mkdir -p /home/runner/work/_actions/lucee/script-runner/main/temp/lucee/lucee-server/deploy/
-           cp -a ${{ github.workspace }}/custom/bad-cfconfig/.CFConfig-empty-cacheHandlers.json5 /home/runner/work/_actions/lucee/script-runner/main/temp/lucee/lucee-server/deploy/.CFConfig.json
+           cp -a ${{ github.workspace }}/custom/bad-cfconfig/.CFConfig-empty-cacheHandlers.json /home/runner/work/_actions/lucee/script-runner/main/temp/lucee/lucee-server/deploy/.CFConfig.json
       - name: Check good .CFConfig with newer image extension ( via /deploy )
         uses: lucee/script-runner@main
         if: always()
