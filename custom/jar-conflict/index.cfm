@@ -1,6 +1,6 @@
 <cfscript>
 
-    var dir = getDirectoryFromPath(getCurrentTemplatePath()) & "jars";
+    dir = getDirectoryFromPath(getCurrentTemplatePath()) & "jars";
 
     files = directoryList( dir, true );
 
