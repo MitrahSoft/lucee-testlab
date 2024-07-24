@@ -42,7 +42,7 @@ jobs:
       - name: Download poi Jars
         uses: lucee/script-runner@main
         with:
-          webroot: ${{ github.workspace }}/custom/default-cfconfig
+          webroot: ${{ github.workspace }}/custom/jar-conflict
           execute: /setup.cfm
           luceeVersionQuery: ${{ matrix.luceeVersion }} 
       - name: Load jars by path and libDir
