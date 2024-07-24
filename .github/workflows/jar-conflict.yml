@@ -45,12 +45,14 @@ jobs:
         with:
           webroot: ${{ github.workspace }}/custom/jar-conflict
           execute: /setup.cfm
-          luceeVersionQuery: ${{ matrix.luceeVersion }} 
+          luceeVersionQuery: ${{ matrix.luceeVersion }}
+          postCleanup: false
       - name: Load jars by path and libDir
         uses: lucee/script-runner@main
         with:
           webroot: ${{ github.workspace }}/custom/jar-conflict
           execute: /index.cfm
           luceeVersionQuery: ${{ matrix.luceeVersion }}
+          preCleanup: false
         #env:
           #LUCEE_BASE_CONFIG: ${{ github.workspace }}/custom/jar-conflict/.CFConfig-jar-conflict.json

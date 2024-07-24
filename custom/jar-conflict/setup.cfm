@@ -21,4 +21,17 @@
 
     files = directoryList( dir, true );
     systemOutput( files );
+
+    var contextDir = ExpandPath('{lucee-config}') & "/lib"
+
+    for ( file in files ){
+        if ( listLast( file, ".") eq "jar" && listLast( file, "/") contains "poi-" ){
+            systemOutput( "copying [#file#] to [#contextLibDir#]", true );
+            fileCopy( file, contextLibDir );
+        }
+    }
+    systemOutput( poiJarPaths, true );
+    
+
+
 </cfscript>
