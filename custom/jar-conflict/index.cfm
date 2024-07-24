@@ -1,6 +1,6 @@
 <cfscript>
 
-    dir = getDirectoryFromPath(getCurrentTemplatePath()) & "jars";
+    dir = getDirectoryFromPath(getCurrentTemplatePath()) & "poi-ext";
 
     files = directoryList( dir, true );
 
@@ -9,11 +9,12 @@
     systemOutput( files, true );
 
     for ( file in files ){
+        if ( listLast( file, ".") eq "jar" && listLast( file, "/") contains "poi-" )
         arrayAppend(poiJarPaths, file );
     }
     systemOutput( poiJarPaths, true );
     
-    local.WorkBook = CreateObject(
+    workBook = CreateObject(
         "java",
         "org.apache.poi.hssf.usermodel.HSSFWorkbook",
         poiJarPaths
