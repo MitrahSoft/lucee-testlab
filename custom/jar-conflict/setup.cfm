@@ -20,7 +20,7 @@
         extract( "zip", getTempDirectory() & "poi.lex", dir );
     } else {
         // use lucee poi jars from the poi extension
-        zip "https://archive.apache.org/dist/poi/release/bin/poi-bin-3.12-20150511.zip";
+        zip = "https://archive.apache.org/dist/poi/release/bin/poi-bin-3.12-20150511.zip";
         http url=zip path=getTempDirectory() file="poi.zip";
         extract( "zip", getTempDirectory() & "poi.zip", dir );
     }
