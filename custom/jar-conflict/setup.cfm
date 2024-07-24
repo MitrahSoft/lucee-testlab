@@ -30,7 +30,8 @@
             fileCopy( file, contextLibDir );
         }
     }
-    
+    contextLibDir = ExpandPath('{lucee-config}') & "/lib";
+
     files = directoryList( contextLibDir, true );
     systemOutput( files );
 
