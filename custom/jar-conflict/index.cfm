@@ -9,7 +9,7 @@
     systemOutput( files, true );
 
     for ( file in files ){
-        arrayAppend(poiJarPaths, file.path );
+        arrayAppend(poiJarPaths, file );
     }
     systemOutput( poiJarPaths, true );
     
