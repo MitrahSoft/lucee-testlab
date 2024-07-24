@@ -22,7 +22,7 @@
     files = directoryList( dir, true );
     systemOutput( files );
 
-    contextDir = ExpandPath('{lucee-config}') & "/lib";
+    contextLibDir = ExpandPath('{lucee-config}') & "/lib";
 
     for ( file in files ){
         if ( listLast( file, ".") eq "jar" && listLast( file, "/") contains "poi-" ){
@@ -30,6 +30,9 @@
             fileCopy( file, contextLibDir );
         }
     }
-    systemOutput( poiJarPaths, true );
+    
+    files = directoryList( contextLibDir, true );
+    systemOutput( files );
+
 
 </cfscript>
