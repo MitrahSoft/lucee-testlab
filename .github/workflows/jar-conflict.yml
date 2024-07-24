@@ -13,7 +13,7 @@ jobs:
         luceeVersion:
           [
             5.4/snapshot/light,
-            6.1.0/snapshot/light
+            6.1/snapshot/light
           ]
         javaVersion: [ 11 ]
     env:
